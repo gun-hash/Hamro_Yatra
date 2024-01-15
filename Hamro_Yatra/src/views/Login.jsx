@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../assets/styles/login.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +26,17 @@ const Login = () => {
         "http://localhost:8080/api/login",
         formData
       );
-      const { token } = response.data;
+      const { token, role } = response.data;
 
       localStorage.setItem("jwtToken", token);
 
-      console.log("Login successful:", response.data);
+      if (role == "driver") {
+        navigate("/driver");
+      } else if (role == "passenger") {
+        navigate("/passenger");
+      } else if (role == "admin") {
+        navigate("/admin");
+      }
     } catch (error) {
       console.error("Error logging in:", error.response.data);
     }

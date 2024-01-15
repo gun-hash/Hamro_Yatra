@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../assets/styles/register.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +9,10 @@ const RegisterForm = () => {
     phone: "",
     email: "",
     password: "",
+    role: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,8 +29,7 @@ const RegisterForm = () => {
         "http://localhost:8080/api/register",
         formData
       );
-      console.log("Registration successful:", response.data);
-      // Optionally, redirect to login or another page after successful registration
+      navigate("/login");
     } catch (error) {
       console.error("Error registering user:", error.response.data);
     }
@@ -74,6 +77,17 @@ const RegisterForm = () => {
             value={formData.password}
             onChange={handleChange}
           />
+        </label>
+        <br />
+        <label>
+          Role:
+          <select name="role" value={formData.role} onChange={handleChange}>
+            <option value="" disabled>
+              Select Role
+            </option>
+            <option value="driver">Driver</option>
+            <option value="passenger">Passenger</option>
+          </select>
         </label>
         <br />
         <button type="submit">Register</button>
