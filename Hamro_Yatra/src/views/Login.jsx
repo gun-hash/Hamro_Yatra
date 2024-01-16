@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useStateContext } from "../context/ContextProvider";
 import axios from "axios";
 import "../assets/styles/login.css";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { userRole, settingUserRole, settingUserName, settingToken } =
+    useStateContext();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userRole) {
+      if (userRole === "driver") {
+        navigate("/driver");
+      } else if (userRole === "passenger") {
+        navigate("/passenger");
+      } else if (userRole === "admin") {
+        navigate("/admin");
+      }
+    }
+  }, [userRole, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,19 +42,13 @@ const Login = () => {
         "http://localhost:8080/api/login",
         formData
       );
-      const { token, role } = response.data;
+      const { authtoken, role, user } = response.data;
 
-      localStorage.setItem("jwtToken", token);
-
-      if (role == "driver") {
-        navigate("/driver");
-      } else if (role == "passenger") {
-        navigate("/passenger");
-      } else if (role == "admin") {
-        navigate("/admin");
-      }
+      settingUserRole(role);
+      settingToken(authtoken);
+      settingUserName(user);
     } catch (error) {
-      console.error("Error logging in:", error.response.data);
+      console.error("Error logging in:", error);
     }
   };
 
