@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const userRoutes = require("./Routes/userRoutes");
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 //db connection

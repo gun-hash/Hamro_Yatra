@@ -12,7 +12,7 @@ import AdminDashboard from "../views/admin/AdminDashboard";
 import DriverDashboard from "../views/driver/DriverDashboard";
 import PassengerDashboard from "../views/passenger/PassengerDashboard";
 import Page404 from "../views/Page404";
-import option from "../views/Option";
+import Option from "../views/Option";
 
 export default function Routing() {
   return (

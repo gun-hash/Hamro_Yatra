@@ -42,13 +42,13 @@ const Login = () => {
         "http://localhost:8080/api/login",
         formData
       );
-      const { authtoken, role, user } = response.data;
-
-      settingUserRole(role);
+      const { user, authtoken, ...rest } = response.data;
+      // Set user role, token, and user name
+      settingUserRole(user.role);
       settingToken(authtoken);
-      settingUserName(user);
+      settingUserName(user.name);
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.error("Error logging in:", error.message);
     }
   };
 

@@ -38,14 +38,17 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: "Wrong Password" });
     }
 
+    const { pass, ...rest } = user._doc;
+
     const authtoken = jwt.sign(
       { userId: user._id },
       "mU_ldalQXHJPm1Su5e_HHy4gjxFEJbWjy_1_SthOjj8",
       { expiresIn: "1h" }
     );
 
-    res.json({ authtoken, role: user.role, user: user.name });
+    res.json({ user: rest, authtoken });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
