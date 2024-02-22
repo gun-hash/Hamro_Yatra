@@ -1,54 +1,71 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
+/* Styles for Login Component */
+.login-container {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 28px;
+  width: 60vw;
+  max-width: 350px;
+  height: 80vh;
+  margin: 20px;
+
+}
+.forgot p {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #0082cd;
+  border: 1px solid;
+}
+.forgot a {
+  color: #0082cd;
+  text-decoration: none;
+}
+.login-container-login {
+  /* border: 1px solid; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form input{
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.login-container-login img {
+  height: 120px;
+  width: 12vw;
+  /* border: 1px solid; */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container button {
+  background-color: #525ad9;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+button:hover {
+  background-color: #525ad9;
+}
+
+@media only screen and (max-width: 600px) {
   .login-container {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-    width: 300px;
+    width: 80vw;
   }
-  
-  h2 {
-    text-align: center;
-    color: #333;
+  .login-container-login img {
+    height: 160px;
+    width: 60vw;
   }
-  
-  .login-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    margin-bottom: 8px;
-  }
-  
-  input {
-    padding: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+}

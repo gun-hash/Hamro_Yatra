@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../assets/styles/register.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/Images/logo.png";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -36,59 +37,60 @@ const RegisterForm = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-        </label>
+    <div className="Register-main-container">
+      <div className="logo-register">
+        <img src={Logo} alt="logo" />
+      </div>
+      <p>Register</p>
+      <form onSubmit={handleSubmit} className="form-section">
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Enter your Full Name"
+        />
+
         <br />
-        <label>
-          Phone:
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-        </label>
+
+        <input
+          type="text"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="Enter your PhoneNumber"
+        />
+
         <br />
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
+
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter your Email"
+        />
+
         <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
+
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Create your Password"
+        />
+
         <br />
-        <label>
-          Role:
-          <select name="role" value={formData.role} onChange={handleChange}>
-            <option value="" disabled>
-              Select Role
-            </option>
-            <option value="driver">Driver</option>
-            <option value="passenger">Passenger</option>
-          </select>
-        </label>
+
+        <select name="role" value={formData.role} onChange={handleChange}>
+          <option value="" disabled>
+            Select Role
+          </option>
+          <option value="driver">Driver</option>
+          <option value="passenger">Passenger</option>
+        </select>
+
         <br />
         <button type="submit">Register</button>
       </form>
