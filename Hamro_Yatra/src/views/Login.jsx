@@ -3,6 +3,8 @@ import { useStateContext } from "../context/ContextProvider";
 import axios from "axios";
 import "../assets/styles/login.css";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/Images/logo.png";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { userRole, settingUserRole, settingUserName, settingToken } =
@@ -54,26 +56,30 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <div className="login-container-login">
+        <img src={Logo} alt="logo" />
+      </div>
+
+      <p style={{ fontSize: "1.2rem" }}>Your email and password</p>
       <form onSubmit={handleSubmit} className="login-form">
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter Your Email"
+        />
+
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Enter Your Password"
+        />
+        <p className="forgot">
+          <Link to="/">Forgot password?</Link>
+        </p>
         <button type="submit">Login</button>
       </form>
     </div>
