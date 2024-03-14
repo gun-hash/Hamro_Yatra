@@ -64,10 +64,15 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-container-login">
+        <div className="back-container">
+          <Link to="/">
+            <div className="arrow"></div>
+          </Link>
+        </div>
         <img src={Logo} alt="logo" />
       </div>
 
-      <p style={{ fontSize: "1.2rem" }}>Your email and password</p>
+      <p style={{ fontSize: "1.2rem" }}>Enter Your email and password</p>
       <form onSubmit={handleSubmit} className="login-form">
         <input
           type="email"

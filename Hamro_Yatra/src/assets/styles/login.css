@@ -8,8 +8,35 @@
   max-width: 350px;
   height: 80vh;
   margin: 20px;
-
 }
+
+.back-container {
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+  background-color: #e5e8ef;
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgb(41, 40, 40);
+  display: inline-block;
+}
+
+.back-container a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.7rem;
+}
+
 .forgot p {
   text-decoration: none;
   font-size: 0.8rem;
@@ -21,13 +48,13 @@
   text-decoration: none;
 }
 .login-container-login {
-  /* border: 1px solid; */
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-.login-form input{
+.login-form input {
   padding: 8px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
@@ -37,7 +64,6 @@
 .login-container-login img {
   height: 120px;
   width: 12vw;
-  /* border: 1px solid; */
 }
 
 .login-form {
