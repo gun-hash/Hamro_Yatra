@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import axios from "axios";
+import LogoutButton from "../../components/common/LogoutButton";
 
 export default function PassengerDashboard() {
   const { email } = useStateContext();
@@ -16,5 +17,8 @@ export default function PassengerDashboard() {
       });
   }, [email]);
 
-  return <div>Passenger Dashboard</div>;
+  return (<>
+  <div>Passenger Dashboard</div>
+  <LogoutButton/>
+  </>);
 }

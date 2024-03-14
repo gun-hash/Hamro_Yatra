@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import axios from "axios";
+import LogoutButton from "../../components/common/LogoutButton";
 
 export default function DriverDashboard() {
   const { email } = useStateContext();
@@ -17,5 +18,8 @@ export default function DriverDashboard() {
       });
   }, [email]);
 
-  return <div>Driver Dashboard</div>;
+  return (<>
+  <div>Driver Dashboard</div>
+  <LogoutButton/>
+  </>);
 }
