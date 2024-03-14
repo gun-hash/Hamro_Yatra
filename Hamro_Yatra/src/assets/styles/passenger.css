@@ -1,0 +1,95 @@
+.passenger-main-container {
+  margin: 0 auto;
+  padding: 20px;
+  width: 80vw;
+  height: 85vh;
+  /* border: 1px solid; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.find-ride-container {
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  padding: 20px;
+  width: 70vw;
+  height: 65vh;
+  /* border: 1px solid; */
+}
+.btn-search {
+  border: none;
+  height: 40px;
+  width: 450px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btn-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h3 {
+  margin-top: 0;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="date"],
+.input-group input[type="number"] {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.seat-counter {
+  display: flex;
+  align-items: center;
+}
+
+.seat-counter button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .input-group {
+    display: block;
+  }
+
+  .input-group input[type="text"],
+  .input-group input[type="date"],
+  .input-group input[type="number"] {
+    width: 90%;
+  }
+  .btn-search {
+    border: none;
+    height: 40px;
+    width: 250px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
