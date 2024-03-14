@@ -51,12 +51,10 @@ export const verifyEmail = async (req, res) => {
     const decoded = jwt.verify(token, process.env.NODEMAILER_AUTH_SECRET_KEY);
 
     // Find the user in the database based on the email from the token
-    console.log("Decoded email:", decoded.email);
     const user = await User.findOne({
       email: { $regex: new RegExp("^" + decoded.email, "i") },
     });
 
-    console.log("User status before verification:", user);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -71,7 +69,6 @@ export const verifyEmail = async (req, res) => {
     user.isVerified = true;
     await user.save();
 
-    console.log("User status after verification:", user);
 
     // Redirect to the login page or send a success response
     res.send('<a href="http://localhost:5173/login">Success Go to login</a>'); // You can modify the redirect URL based on your project structure
