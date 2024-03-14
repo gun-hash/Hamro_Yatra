@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f4f4f4;
   display: flex;
   justify-content: center;
@@ -11,20 +11,42 @@ body {
 .Register-main-container {
   /* border: 1px solid; */
   width: 30vw;
-  height: 95vh; 
-  max-width: 600px; 
+  height: 95vh;
+  max-width: 600px;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  position: relative;
 }
-.logo-register{
+.arrow-container {
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+  background-color: #e5e8ef;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgb(41, 40, 40);
+  display: inline-block;
+}
+
+.logo-register {
   /* border: 1px solid; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.logo-register img{
+.logo-register img {
   height: 100px;
 }
 .container {
@@ -33,8 +55,7 @@ body {
   border-radius: 8px;
   padding: 20px;
   width: 300px;
-  margin: 0 auto; 
-
+  margin: 0 auto;
 }
 
 .form-section {
@@ -52,7 +73,7 @@ body {
 }
 
 .form-section button {
-  background-color: #525AD9;
+  background-color: #525ad9;
   color: #fff;
   padding: 10px;
   border: none;
@@ -65,16 +86,15 @@ button:hover {
   background-color: #0056b3;
 }
 
-
 @media only screen and (max-width: 768px) {
   .Register-main-container {
-    width: 80%; 
+    width: 90%;
   }
 }
 
 @media only screen and (max-width: 480px) {
   .Register-main-container {
-    width: 90%; 
+    width: 80vw;
   }
 
   .form-section input,

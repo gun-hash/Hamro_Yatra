@@ -3,6 +3,7 @@ import "../assets/styles/register.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Images/logo.png";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -38,6 +39,12 @@ const RegisterForm = () => {
 
   return (
     <div className="Register-main-container">
+      <div className="arrow-container">
+        <Link to="/">
+          <div className="arrow"></div>
+        </Link>
+      </div>
+
       <div className="logo-register">
         <img src={Logo} alt="logo" />
       </div>
