@@ -13,6 +13,7 @@ import DriverDashboard from "../views/driver/DriverDashboard";
 import PassengerDashboard from "../views/passenger/PassengerDashboard";
 import Page404 from "../views/Page404";
 import Option from "../views/Option";
+import VerifyEmail from "../views/VerifyEmail";
 
 export default function Routing() {
   return (
@@ -24,6 +25,7 @@ export default function Routing() {
             <Route path="option" element={<Navigate to="/" />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="verify/:token" element={<VerifyEmail />} />
           </Route>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />

@@ -5,9 +5,11 @@ import "../assets/styles/login.css";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Images/logo.png";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const { userRole, settingUserRole, settingUserName, settingToken } =
+  const { userRole, settingUserRole, settingEmail, settingToken } =
     useStateContext();
 
   const [formData, setFormData] = useState({
@@ -44,11 +46,16 @@ const Login = () => {
         "http://localhost:8080/api/login",
         formData
       );
-      const { user, authtoken, ...rest } = response.data;
+      const { email, role, authtoken, ...rest } = response.data;
+      console.log(response.data);
       // Set user role, token, and user name
-      settingUserRole(user.role);
-      settingToken(authtoken);
-      settingUserName(user.name);
+      if (response.data.success) {
+        settingUserRole(role);
+        settingToken(authtoken);
+        settingEmail(email);
+      } else {
+        toast.warn(response.data.message);
+      }
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
@@ -82,6 +89,7 @@ const Login = () => {
         </p>
         <button type="submit">Login</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

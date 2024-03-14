@@ -1,7 +1,10 @@
-const express = require("express");
+import express from "express";
+import { passengerRoleCheckMiddleware } from "../Middleware/passengerRoleCheckMiddleware.js";
+import { test } from "../Controllers/passengerController.js";
+import User from "../Models/User.js";
+
 const router = express.Router();
-const passengerController = require("../Controllers/passengerController");
 
-router.post("/book", passengerController.bookRide);
+router.get("/all", passengerRoleCheckMiddleware, test);
 
-module.exports = router;
+export default router;

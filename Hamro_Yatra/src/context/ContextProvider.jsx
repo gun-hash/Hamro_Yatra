@@ -1,18 +1,17 @@
 import { useContext, createContext, useState } from "react";
 const stateContext = createContext({
-  userName: null,
+  email: null,
   token: null,
   userRole: null,
   settingToken: () => {},
-  settingUserName: () => {},
+  settingEmail: () => {},
   settingUserRole: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
-  const [userName, setUser] = useState(localStorage.getItem("user"));
+  const [email, setEmail] = useState(localStorage.getItem("email"));
   const [token, setToken] = useState(localStorage.getItem("jwtToken"));
   const [userRole, setRole] = useState(localStorage.getItem("role"));
-  // const [token,setToken] = useState(null);
 
   const settingUserRole = (role) => {
     setRole(role);
@@ -31,12 +30,12 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const settingUserName = (user) => {
-    setUser(user);
-    if (user) {
-      localStorage.setItem("user", user);
+  const settingEmail = (email) => {
+    setEmail(email);
+    if (email) {
+      localStorage.setItem("email", email);
     } else {
-      localStorage.removeItem("user");
+      localStorage.removeItem("email");
     }
   };
 
@@ -45,8 +44,8 @@ export const ContextProvider = ({ children }) => {
   return (
     <stateContext.Provider
       value={{
-        userName,
-        settingUserName,
+        email,
+        settingEmail,
         token,
         settingToken,
         userRole,
