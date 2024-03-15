@@ -36,9 +36,9 @@ export default function Routing() {
             <Route path="dashboard" element={<Navigate to="/driver" />} />
           </Route>
           <Route path="/passenger" element={<PassengerLayout />}>
-            <Route index element={<PassengerRideHistory />} />
-            <Route path="search" element={<PassengerSearch />} />
-            <Route path="ride-history" element={<Navigate to="/passenger" />} />
+            <Route index element={<PassengerSearch />} />
+            <Route path="search" element={<Navigate to="/passenger" />} />
+            <Route path="ride-history" element={<PassengerRideHistory />} />
             <Route path="profile" element={<PassengerProfile />} />
           </Route>
           <Route path="*" element={<Page404 />} />
