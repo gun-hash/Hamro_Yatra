@@ -10,10 +10,10 @@ import Login from "../views/Login";
 import Register from "../views/Register";
 import AdminDashboard from "../views/admin/AdminDashboard";
 import DriverDashboard from "../views/driver/DriverDashboard";
-import PassengerDashboard from "../views/passenger/PassengerDashboard";
 import Page404 from "../views/Page404";
 import Option from "../views/Option";
 import VerifyEmail from "../views/VerifyEmail";
+import { PassengerProfile, PassengerRideHistory, PassengerSearch } from "../views/passenger";
 
 export default function Routing() {
   return (
@@ -36,8 +36,10 @@ export default function Routing() {
             <Route path="dashboard" element={<Navigate to="/driver" />} />
           </Route>
           <Route path="/passenger" element={<PassengerLayout />}>
-            <Route index element={<PassengerDashboard />} />
-            <Route path="dashboard" element={<Navigate to="/passenger" />} />
+            <Route index element={<PassengerRideHistory />} />
+            <Route path="search" element={<PassengerSearch />} />
+            <Route path="ride-history" element={<Navigate to="/passenger" />} />
+            <Route path="profile" element={<PassengerProfile />} />
           </Route>
           <Route path="*" element={<Page404 />} />
         </Routes>

@@ -1,0 +1,44 @@
+import mongoose from "mongoose";
+
+const RideSchema = new mongoose.Schema({
+  from: {
+    type: String,
+    required: true,
+  },
+  to: {
+    type: String, // Changed type to String
+    required: true,
+  },
+  fare: {
+    type: Number,
+    required: true,
+  },
+  driverID: {
+    type: String,
+    required: false,
+  },
+  passengerID: {
+    type: String,
+    required: false,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  time: {
+    type: String, // Assuming time will be stored as string HH:MM format
+    required: true,
+  },
+  seats: {
+    type: Number,
+    required: true,
+  },
+});
+
+const Ride = mongoose.model("Ride", RideSchema);
+
+export default Ride;

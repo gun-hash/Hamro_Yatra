@@ -5,7 +5,6 @@ import LogoutButton from "../../components/common/LogoutButton";
 
 export default function AdminDashboard() {
   const { email } = useStateContext();
-  console.log(email);
 
   useEffect(() => {
     axios.get(`http://localhost:8080/admin/all?email=${email}`)

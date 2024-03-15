@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRoad, faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import "./passenger_nav.css";
@@ -5,15 +6,15 @@ import "./passenger_nav.css";
 const Passenger_nav = () => {
   return (
     <div className="navbar">
-      <a href="#">
+      <Link to="/passenger/ride-history">
         <FontAwesomeIcon icon={faRoad} /> Ride History
-      </a>
-      <a href="#">
+      </Link>
+      <Link to="/passenger/search">
         <FontAwesomeIcon icon={faSearch} /> Search
-      </a>
-      <a href="#">
+      </Link>
+      <Link to="/passenger/profile">
         <FontAwesomeIcon icon={faUser} /> Profile
-      </a>
+      </Link>
     </div>
   );
 };
