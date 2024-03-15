@@ -110,3 +110,20 @@ h3 {
   color: #333;
   margin-top: 20px;
 }
+
+.ride-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.ride-card h3 {
+  margin-top: 0;
+}
+
+.ride-card p {
+  margin: 5px 0;
+}

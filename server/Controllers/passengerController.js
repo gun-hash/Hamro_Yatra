@@ -49,7 +49,8 @@ const history = async (req, res) => {
   const userEmail = req.query.email;
   try {
     const currentUser = await User.findOne({ email: userEmail });
-    res.json({ currentUser });
+    const rideHistory = await Ride.find({ passengerID: currentUser._id })
+    res.json({ rideHistory });
   } catch (error) {
     console.error("Error fetching user:", error.message);
     res.status(500).json({ error: "Internal Server Error" });

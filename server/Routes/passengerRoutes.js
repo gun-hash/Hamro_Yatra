@@ -9,7 +9,7 @@ router.get("/", (re,res)=> console.log("hello"))
 
 router.get("/profiledata", passengerRoleCheckMiddleware, profileData);
 router.post("/search", passengerRoleCheckMiddleware, search);
-router.post("/history", passengerRoleCheckMiddleware, history);
+router.get("/history", passengerRoleCheckMiddleware, history);
 
 
 export default router;
