@@ -16,7 +16,7 @@ const profileData = async (req, res) => {
 
 
 const search = async (req, res) => {
-  const { from, to, date, seats, time } = req.body;
+  const { from, to, date, seats, time, daysOfWeek } = req.body;
   const { email } = req.query;
 
   try {
@@ -25,16 +25,18 @@ const search = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+
     const newRide = new Ride({
-      email: email,
-      seats: seats,
-      from: from,
-      to: to,
-      date: date,
+      email,
+      seats,
+      from,
+      to,
+      date,
       fare: 1200,
       passengerID: rideReqUser._id,
-      time: time,
-      status: 'unaccepted'
+      time,
+      status: 'unaccepted',
+      daysOfWeek,
     });
 
     await newRide.save()

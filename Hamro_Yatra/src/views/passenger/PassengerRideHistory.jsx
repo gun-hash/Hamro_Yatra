@@ -1,5 +1,5 @@
 import axios from 'axios';
-import '../../assets/styles/passenger.css'; 
+import '../../assets/styles/passenger.css';
 import Passenger_nav from '../../components/passenger/passenger_nav';
 import { useStateContext } from '../../context/ContextProvider';
 import { useEffect, useState } from 'react';
@@ -29,11 +29,11 @@ function PassengerRideHistory() {
     try {
       // Make a DELETE request to the backend to delete the ride
       await axios.get(`http://localhost:8080/passenger/deleteride?email=${email}&rideID=${rideId}`)
-      .then((res)=>{
-        // Filter out the deleted ride from the rideHistory
-        setRideHistory(prevRides => prevRides.filter(ride => ride._id !== rideId));
-      })
-      
+        .then((res) => {
+          // Filter out the deleted ride from the rideHistory
+          setRideHistory(prevRides => prevRides.filter(ride => ride._id !== rideId));
+        })
+
     } catch (error) {
       console.error('Error deleting ride:', error);
     }
@@ -42,28 +42,29 @@ function PassengerRideHistory() {
   return (
     <>
       {loading ? null : <h2>Ride Details</h2>}
-      <div className="ride-history-container"> 
+      <div className="ride-history-container">
         {loading ? (
           <p>Loading...</p>
         ) : rideHistory === null ? (
           <p className="no-rides-message">No ride history</p>
         ) :
-        (
-          rideHistory.map(ride => (
-            <div className="ride-card" key={ride._id}>
-              <h3>Status: {ride.status}</h3>
-              <p>From: {ride.from}</p>
-              <p>To: {ride.to}</p>
-              <p>Fare: {ride.fare}</p>
-              <p>Date: {ride.date}</p>
-              <p>Time: {ride.time}</p>
-              <p>Seats: {ride.seats}</p>
-              {ride.status === 'unaccepted' && (
-                <button onClick={() => handleDeleteRide(ride._id)}>Delete</button>
-              )}
-            </div>
-          ))
-        )}
+          (
+            rideHistory.map(ride => (
+              <div className="ride-card" key={ride._id}>
+                <h3>Status: {ride.status}</h3>
+                <p>From: {ride.from}</p>
+                <p>To: {ride.to}</p>
+                <p>Fare: {ride.fare}</p>
+                <p>Date: {ride.date}</p>
+                <p>Time: {ride.time}</p>
+                <p>Seats: {ride.seats}</p>
+                <p>Days of Week: {ride.daysOfWeek.join(', ')}</p>
+                {ride.status === 'unaccepted' && (
+                  <button onClick={() => handleDeleteRide(ride._id)}>Delete</button>
+                )}
+              </div>
+            ))
+          )}
       </div>
       <Passenger_nav />
     </>

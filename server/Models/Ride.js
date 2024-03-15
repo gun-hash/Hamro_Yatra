@@ -37,6 +37,10 @@ const RideSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  daysOfWeek: {
+    type: [String], // Array of strings
+    required: true
+    },
 });
 
 const Ride = mongoose.model("Ride", RideSchema);

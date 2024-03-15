@@ -16,6 +16,8 @@ export default function PassengerSearch() {
   });
 
   const [seatsNeeded, setSeatsNeeded] = useState(1);
+  const [selectedDays, setSelectedDays] = useState([]);
+
 
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
@@ -31,10 +33,28 @@ export default function PassengerSearch() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name === "date") {
+      // Format the date to 'YYYY-MM-DD'
+      const formattedDate = value.split('T')[0];
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: formattedDate,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleDayChange = (e) => {
+    const { value } = e.target;
+    if (selectedDays.includes(value)) {
+      setSelectedDays(selectedDays.filter(day => day !== value));
+    } else {
+      setSelectedDays([...selectedDays, value]);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -42,6 +62,7 @@ export default function PassengerSearch() {
     try {
       const response = await axios.post(`http://localhost:8080/passenger/search?email=${email}`, {
         seats: seatsNeeded,
+        daysOfWeek: selectedDays,
         ...formData,
       });
       if (response.status === 200) {
@@ -109,13 +130,93 @@ export default function PassengerSearch() {
                 <button type="button" onClick={incrementSeats}>+</button>
               </div>
             </div>
+            <div className="input-group">
+              <label>Days of the week:</label>
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="sunday"
+                    value="sunday"
+                    checked={selectedDays.includes("sunday")}
+                    onChange={handleDayChange}
+                  />
+                  Sunday
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="monday"
+                    value="monday"
+                    checked={selectedDays.includes("monday")}
+                    onChange={handleDayChange}
+                  />
+                  Monday
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="tuesday"
+                    value="tuesday"
+                    checked={selectedDays.includes("tuesday")}
+                    onChange={handleDayChange}
+                  />
+                  Tuesday
+                </label>
+                {/* Wednesday */}
+                <label>
+                  <input
+                    type="checkbox"
+                    name="wednesday"
+                    value="wednesday"
+                    checked={selectedDays.includes("wednesday")}
+                    onChange={handleDayChange}
+                  />
+                  Wednesday
+                </label>
+                {/* Thursday */}
+                <label>
+                  <input
+                    type="checkbox"
+                    name="thursday"
+                    value="thursday"
+                    checked={selectedDays.includes("thursday")}
+                    onChange={handleDayChange}
+                  />
+                  Thursday
+                </label>
+                {/* Friday */}
+                <label>
+                  <input
+                    type="checkbox"
+                    name="friday"
+                    value="friday"
+                    checked={selectedDays.includes("friday")}
+                    onChange={handleDayChange}
+                  />
+                  Friday
+                </label>
+                {/* Saturday */}
+                <label>
+                  <input
+                    type="checkbox"
+                    name="saturday"
+                    value="saturday"
+                    checked={selectedDays.includes("saturday")}
+                    onChange={handleDayChange}
+                  />
+                  Saturday
+                </label>
+              </div>
+            </div>
             <div className="btn-group">
               <button type="submit" className="btn-search">Search</button>
             </div>
           </form>
         </div>
-        <Passenger_nav />
+
       </div>
+      <Passenger_nav />
     </>
   );
 }
