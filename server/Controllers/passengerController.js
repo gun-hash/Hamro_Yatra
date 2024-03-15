@@ -16,7 +16,7 @@ const profileData = async (req, res) => {
 
 
 const search = async (req, res) => {
-  const { from, to, date, seats } = req.body;
+  const { from, to, date, seats, time } = req.body;
   const { email } = req.query;
 
   try {
@@ -33,7 +33,7 @@ const search = async (req, res) => {
       date: date,
       fare: 1200,
       passengerID: rideReqUser._id,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      time: time,
       status: 'unaccepted'
     });
 
@@ -57,4 +57,20 @@ const history = async (req, res) => {
   }
 };
 
-export { profileData, search, history };
+const deleteRide = async (req, res) => {
+  const userEmail = req.query.email;
+  const rideId = req.query.rideID; // Corrected variable name to rideId
+  try {
+    // Delete the ride by its ID
+    await Ride.findByIdAndDelete(rideId);
+    // Respond with a success status code
+    res.status(200).json({ message: "Ride deleted successfully" });
+  } catch (error) {
+    // Handle errors
+    console.error("Error deleting ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export { profileData, search, history, deleteRide };

@@ -25,6 +25,20 @@ function PassengerRideHistory() {
       });
   }, [email]);
 
+  const handleDeleteRide = async (rideId) => {
+    try {
+      // Make a DELETE request to the backend to delete the ride
+      await axios.get(`http://localhost:8080/passenger/deleteride?email=${email}&rideID=${rideId}`)
+      .then((res)=>{
+        // Filter out the deleted ride from the rideHistory
+        setRideHistory(prevRides => prevRides.filter(ride => ride._id !== rideId));
+      })
+      
+    } catch (error) {
+      console.error('Error deleting ride:', error);
+    }
+  };
+
   return (
     <>
       {loading ? null : <h2>Ride Details</h2>}
@@ -44,6 +58,9 @@ function PassengerRideHistory() {
               <p>Date: {ride.date}</p>
               <p>Time: {ride.time}</p>
               <p>Seats: {ride.seats}</p>
+              {ride.status === 'unaccepted' && (
+                <button onClick={() => handleDeleteRide(ride._id)}>Delete</button>
+              )}
             </div>
           ))
         )}

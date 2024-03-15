@@ -12,6 +12,7 @@ export default function PassengerSearch() {
     from: "",
     to: "",
     date: "",
+    time: "",
   });
 
   const [seatsNeeded, setSeatsNeeded] = useState(1);
@@ -89,6 +90,14 @@ export default function PassengerSearch() {
                 id="dateInput"
                 name="date"
                 value={formData.date}
+                onChange={handleChange}
+              />
+              <input
+                type="time"
+                id="timeInput"
+                name="time"
+                style={{ margin: '20px 0' }}
+                value={formData.time}
                 onChange={handleChange}
               />
             </div>
