@@ -1,0 +1,60 @@
+.ride-history-container {
+  padding: 15px;
+  /* border: 1px solid; */
+  margin-top: 192px;
+}
+.ride-history-main-container {
+  width: 100%;
+}
+.ride-card {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.ride-card h3 {
+  font-size: 18px;
+  color: #0b1187;
+  margin-bottom: 10px;
+}
+
+.ride-card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.ride-card button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ride-card button:hover {
+  background-color: #0056b3;
+}
+
+@media screen and (max-width: 768px) {
+  .ride-card {
+    padding: 15px;
+  }
+
+  .ride-card h3 {
+    font-size: 16px;
+  }
+
+  .ride-card p {
+    font-size: 14px;
+  }
+
+  .ride-card button {
+    font-size: 12px;
+  }
+}

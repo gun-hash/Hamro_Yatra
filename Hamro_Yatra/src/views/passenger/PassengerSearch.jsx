@@ -18,7 +18,6 @@ export default function PassengerSearch() {
   const [seatsNeeded, setSeatsNeeded] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
 
-
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
       setSeatsNeeded((prevSeats) => prevSeats + 1);
@@ -35,7 +34,7 @@ export default function PassengerSearch() {
     const { name, value } = e.target;
     if (name === "date") {
       // Format the date to 'YYYY-MM-DD'
-      const formattedDate = value.split('T')[0];
+      const formattedDate = value.split("T")[0];
       setFormData((prevData) => ({
         ...prevData,
         [name]: formattedDate,
@@ -51,7 +50,7 @@ export default function PassengerSearch() {
   const handleDayChange = (e) => {
     const { value } = e.target;
     if (selectedDays.includes(value)) {
-      setSelectedDays(selectedDays.filter(day => day !== value));
+      setSelectedDays(selectedDays.filter((day) => day !== value));
     } else {
       setSelectedDays([...selectedDays, value]);
     }
@@ -60,13 +59,16 @@ export default function PassengerSearch() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:8080/passenger/search?email=${email}`, {
-        seats: seatsNeeded,
-        daysOfWeek: selectedDays,
-        ...formData,
-      });
+      const response = await axios.post(
+        `http://localhost:8080/passenger/search?email=${email}`,
+        {
+          seats: seatsNeeded,
+          daysOfWeek: selectedDays,
+          ...formData,
+        }
+      );
       if (response.status === 200) {
-        window.location.replace('/passenger/ride-history'); // Redirect to rides history page
+        window.location.replace("/passenger/ride-history"); // Redirect to rides history page
       } else {
         console.error("Error saving ride");
         // Handle other status codes if needed
@@ -117,7 +119,7 @@ export default function PassengerSearch() {
                 type="time"
                 id="timeInput"
                 name="time"
-                style={{ margin: '20px 0' }}
+                style={{ margin: "20px 0" }}
                 value={formData.time}
                 onChange={handleChange}
               />
@@ -125,14 +127,18 @@ export default function PassengerSearch() {
             <div className="input-group">
               <label>Seats needed:</label>
               <div className="seat-counter">
-                <button type="button" onClick={decrementSeats}>-</button>
+                <button type="button" onClick={decrementSeats}>
+                  -
+                </button>
                 <span>{seatsNeeded}</span>
-                <button type="button" onClick={incrementSeats}>+</button>
+                <button type="button" onClick={incrementSeats}>
+                  +
+                </button>
               </div>
             </div>
             <div className="input-group">
               <label>Days of the week:</label>
-              <div>
+              <div className="weeks-group">
                 <label>
                   <input
                     type="checkbox"
@@ -210,13 +216,14 @@ export default function PassengerSearch() {
               </div>
             </div>
             <div className="btn-group">
-              <button type="submit" className="btn-search">Search</button>
+              <button type="submit" className="btn-search">
+                Search
+              </button>
             </div>
           </form>
+          <Passenger_nav />
         </div>
-
       </div>
-      <Passenger_nav />
     </>
   );
 }

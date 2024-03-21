@@ -1,12 +1,13 @@
 .navbar {
   background-color: #fff;
   overflow: hidden;
-  height: 70px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 92%;
-  /* border-radius: 12px; */
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 12px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -22,8 +23,9 @@
 }
 
 .navbar a:hover {
-  background-color: #ddd;
-  color: rgb(31, 40, 169);
+  background-color: rgb(31, 40, 169);
+  color: #fff;
+  border-radius: 12px;
 }
 
 .active {
@@ -40,7 +42,7 @@
     display: none;
   }
   .navbar {
-    width: 350px;
+    width: 400px;
     border-radius: 9px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
       rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
@@ -51,11 +53,11 @@
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 15px;
   }
   .navbar a:hover {
-    background-color: #ddd;
-    color: rgb(31, 40, 169);
+    color: #fff;
+    background-color: rgb(31, 40, 169);
   }
   .navbar .icon {
     float: right;
@@ -74,5 +76,10 @@
   }
   .navbar .icon {
     display: none;
+  }
+}
+@media screen and (min-width: 350px) {
+  .navbar {
+    width: 100%;
   }
 }

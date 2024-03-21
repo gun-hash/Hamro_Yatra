@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Passenger_nav from '../../components/passenger/passenger_nav';
-import { useStateContext } from '../../context/ContextProvider';
-import profilePic from '../../assets/Images/profilepic.webp';
-import LogoutButton from '../../components/common/LogoutButton'
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Passenger_nav from "../../components/passenger/passenger_nav";
+import { useStateContext } from "../../context/ContextProvider";
+import profilePic from "../../assets/Images/profilepic.webp";
+import LogoutButton from "../../components/common/LogoutButton";
+import "../../assets/styles/passenger_profile.css";
 function PassengerProfile() {
   const [userData, setUserData] = useState(null);
   const { email } = useStateContext();
 
   useEffect(() => {
     // Fetch user data from the server using Axios
-    axios.get(`http://localhost:8080/passenger/profiledata?email=${email}`)
-      .then(response => {
+    axios
+      .get(`http://localhost:8080/passenger/profiledata?email=${email}`)
+      .then((response) => {
         // Set the userData state with the response data
         setUserData(response.data.currentUser); // Changed object1 to currentUser
       })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
       });
   }, [email]); // Make sure to include email as a dependency for useEffect
 
@@ -28,7 +29,12 @@ function PassengerProfile() {
           {userData && userData.photo ? (
             <img src={userData.photo} alt="User" className="user-image" />
           ) : (
-            <img src={profilePic} alt="User" className="user-image" style={{ width: '100px', height: 'auto' }} />
+            <img
+              src={profilePic}
+              alt="User"
+              className="user-image"
+              style={{ width: "100px", height: "auto" }}
+            />
           )}
         </div>
         <div className="user-data">
@@ -42,10 +48,10 @@ function PassengerProfile() {
           ) : (
             <p>Loading user data...</p>
           )}
+          <LogoutButton />
+          <Passenger_nav />
         </div>
       </div>
-      <LogoutButton />
-      <Passenger_nav />
     </>
   );
 }
