@@ -4,18 +4,18 @@ import { useStateContext } from '../../context/ContextProvider';
 import { useEffect, useState } from 'react';
 
 
-function DriverRideHistory() {
+function DriverMatch() {
 
     const { email } = useStateContext();
-    const [rideHistory, setRideHistory] = useState(null);
+    const [rideAvailable, setRideAvailable] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Fetch user data from the server using Axios
-        axios.get(`http://localhost:8080/driver/history?email=${email}`)
+        axios.get(`http://localhost:8080/driver/searchmatch?email=${email}`)
             .then(response => {
                 // Set the rideHistory state with the response data
-                setRideHistory(response.data.rideHistory);
+                setRideAvailable(response.data.rideAvailable);
                 setLoading(false); // Set loading to false when data is fetched
             })
             .catch(error => {
@@ -24,17 +24,31 @@ function DriverRideHistory() {
             });
     }, [email]);
 
+    const handleMatchRide = async (rideId) => {
+        try {
+            // Make a DELETE request to the backend to delete the ride
+            await axios.get(`http://localhost:8080/driver/matchride?email=${email}&rideID=${rideId}`)
+                .then((res) => {
+                    // Filter out the deleted ride from the rideHistory
+                    setRideAvailable(prevRides => prevRides.filter(ride => ride._id !== rideId));
+                })
+
+        } catch (error) {
+            console.error('Error matching ride:', error);
+        }
+    };
+
     return (
         <>
             {loading ? null : <h2>Ride Details</h2>}
-            <div className="ride-history-container">
+            <div className="ride-available-container">
                 {loading ? (
                     <p>Loading...</p>
-                ) : rideHistory === null ? (
-                    <p className="no-rides-message">No ride history</p>
+                ) : rideAvailable === null ? (
+                    <p className="no-rides-message">No Rides To Match</p>
                 ) :
                     (
-                        rideHistory.map(ride => (
+                        rideAvailable.map(ride => (
                             <div className="ride-card" key={ride._id}>
                                 <h3>Status: {ride.status}</h3>
                                 <p>From: {ride.from}</p>
@@ -44,6 +58,7 @@ function DriverRideHistory() {
                                 <p>Time: {ride.time}</p>
                                 <p>Seats: {ride.seats}</p>
                                 <p>Days of Week: {ride.daysOfWeek.join(', ')}</p>
+                                <button onClick={() => handleMatchRide(ride._id)}>Match</button>
                             </div>
                         ))
                     )}
@@ -53,4 +68,4 @@ function DriverRideHistory() {
     );
 }
 
-export default DriverRideHistory;
+export default DriverMatch;

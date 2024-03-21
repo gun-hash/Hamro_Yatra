@@ -14,7 +14,6 @@ export default function AdminLayout() {
   } else if (userRole == "admin") {
     return (
       <>
-        Admin layout
         <Outlet />
       </>
     );

@@ -4,9 +4,6 @@ import { profileData, search, history, deleteRide } from "../Controllers/passeng
 
 const router = express.Router();
 
-
-router.get("/", (re,res)=> console.log("hello"))
-
 router.get("/profiledata", passengerRoleCheckMiddleware, profileData);
 router.post("/search", passengerRoleCheckMiddleware, search);
 router.get("/history", passengerRoleCheckMiddleware, history);

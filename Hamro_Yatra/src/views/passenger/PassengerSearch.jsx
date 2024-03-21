@@ -6,7 +6,6 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 
 export default function PassengerSearch() {
   const { email } = useStateContext();
-  console.log(email);
 
   const [formData, setFormData] = useState({
     from: "",

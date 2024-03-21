@@ -1,10 +1,10 @@
 import axios from 'axios';
-import DriverNav from '../../components/driver/DriverNav';
+import AdminNav from '../../components/admin/AdminNav';
 import { useStateContext } from '../../context/ContextProvider';
 import { useEffect, useState } from 'react';
 
 
-function DriverRideHistory() {
+function AdminViewRides() {
 
     const { email } = useStateContext();
     const [rideHistory, setRideHistory] = useState(null);
@@ -12,7 +12,7 @@ function DriverRideHistory() {
 
     useEffect(() => {
         // Fetch user data from the server using Axios
-        axios.get(`http://localhost:8080/driver/history?email=${email}`)
+        axios.get(`http://localhost:8080/admin/view-rides?email=${email}`)
             .then(response => {
                 // Set the rideHistory state with the response data
                 setRideHistory(response.data.rideHistory);
@@ -48,9 +48,9 @@ function DriverRideHistory() {
                         ))
                     )}
             </div>
-            <DriverNav />
+            <AdminNav />
         </>
     );
 }
 
-export default DriverRideHistory;
+export default AdminViewRides;

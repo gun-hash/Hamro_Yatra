@@ -8,12 +8,12 @@ import {
 } from "../layouts/index";
 import Login from "../views/Login";
 import Register from "../views/Register";
-import AdminDashboard from "../views/admin/AdminDashboard";
-import DriverDashboard from "../views/driver/DriverDashboard";
 import Page404 from "../views/Page404";
 import Option from "../views/Option";
 import VerifyEmail from "../views/VerifyEmail";
 import { PassengerProfile, PassengerRideHistory, PassengerSearch } from "../views/passenger";
+import { DriverMatch, DriverProfile, DriverRideHistory, DriverSetDefaultRide } from "../views/driver";
+import { AdminProfile, AdminViewRides, AdminViewUsers } from "../views/admin";
 
 export default function Routing() {
   return (
@@ -28,12 +28,17 @@ export default function Routing() {
             <Route path="verify/:token" element={<VerifyEmail />} />
           </Route>
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="dashboard" element={<Navigate to="/admin" />} />
+            <Route index element={<AdminProfile />} />
+            <Route path="profile" element={<Navigate to="/admin" />} />
+            <Route path="view-rides" element={<AdminViewRides />} />
+            <Route path="view-users" element={<AdminViewUsers />} />
           </Route>
           <Route path="/driver" element={<DriverLayout />}>
-            <Route index element={<DriverDashboard />} />
-            <Route path="dashboard" element={<Navigate to="/driver" />} />
+            <Route index element={<DriverRideHistory />} />
+            <Route path="ride-history" element={<Navigate to="/driver" />} />
+            <Route path="profile" element={<DriverProfile />} />
+            <Route path="set-default" element={<DriverSetDefaultRide />} />
+            <Route path="match" element={<DriverMatch />} />
           </Route>
           <Route path="/passenger" element={<PassengerLayout />}>
             <Route index element={<PassengerSearch />} />
