@@ -1,6 +1,6 @@
 .passenger-profile-container {
-  width: 100%;
-  max-width: 400px; /* Adjust max-width as needed */
+  width: 90vw;
+  height: 90vh;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
@@ -12,18 +12,14 @@
   align-items: center;
 }
 
-.passenger-profile-container:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
 .profile-picture {
   margin-bottom: 20px;
   position: relative;
 }
 
 .profile-picture img {
-  width: 150px;
-  height: 150px;
+  width: 450px;
+  height: 450px;
   border-radius: 50%;
   object-fit: cover;
   border: 5px solid #fff;
@@ -32,6 +28,8 @@
 
 .user-data {
   text-align: center;
+  width: 100%;
+  height: 45vh;
 }
 
 .user-data h2 {
@@ -68,9 +66,9 @@
   background-color: #0056b3;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .passenger-profile-container {
-    max-width: 300px;
+    max-width: 250px;
   }
 
   .profile-picture img {

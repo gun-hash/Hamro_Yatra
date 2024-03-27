@@ -49,8 +49,8 @@ function PassengerProfile() {
             <p>Loading user data...</p>
           )}
           <LogoutButton />
-          <Passenger_nav />
         </div>
+        <Passenger_nav />
       </div>
     </>
   );

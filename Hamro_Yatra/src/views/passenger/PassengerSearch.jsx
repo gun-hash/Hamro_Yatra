@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
 import "../../assets/styles/passenger.css";
@@ -6,6 +6,10 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 
 export default function PassengerSearch() {
   const { email } = useStateContext();
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState({
+    from: [],
+    to: [],
+  });
 
   const [formData, setFormData] = useState({
     from: "",
@@ -44,6 +48,9 @@ export default function PassengerSearch() {
         [name]: value,
       }));
     }
+    if (name === "from" || name === "to") {
+      fetchAutocompleteSuggestions(value, name);
+    }
   };
 
   const handleDayChange = (e) => {
@@ -52,6 +59,35 @@ export default function PassengerSearch() {
       setSelectedDays(selectedDays.filter((day) => day !== value));
     } else {
       setSelectedDays([...selectedDays, value]);
+    }
+  };
+
+  const fetchAutocompleteSuggestions = async (input, type) => {
+    if (input.length > 2) {
+      try {
+        const response = await axios.get(
+          `https://route-init.gallimap.com/api/v1/search/autocomplete`,
+          {
+            params: {
+              accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d", // Replace with your actual GalliMaps access token
+              word: input,
+              lat: "27.6922368", // Replace these with actual values
+              lng: "85.3245952", // Replace these with actual values
+            },
+          }
+        );
+        if (response.data && response.data.data) {
+          setAutocompleteSuggestions((prev) => ({
+            ...prev,
+            [type]: response.data.data.map((item) => item.name),
+          }));
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching autocomplete suggestions for ${type}:`,
+          error
+        );
+      }
     }
   };
 
@@ -92,7 +128,13 @@ export default function PassengerSearch() {
                 value={formData.from}
                 onChange={handleChange}
                 placeholder="Enter your starting location"
+                list="from-suggestions"
               />
+              <datalist id="from-suggestions">
+                {autocompleteSuggestions.from.map((suggestion, index) => (
+                  <option key={index} value={suggestion} />
+                ))}
+              </datalist>
             </div>
             <div className="input-group">
               <label htmlFor="toInput">To:</label>
@@ -103,8 +145,15 @@ export default function PassengerSearch() {
                 value={formData.to}
                 onChange={handleChange}
                 placeholder="Enter your destination"
+                list="to-suggestions"
               />
+              <datalist id="to-suggestions">
+                {autocompleteSuggestions.to.map((suggestion, index) => (
+                  <option key={index} value={suggestion} />
+                ))}
+              </datalist>
             </div>
+
             <div className="input-group">
               <label htmlFor="dateInput">When:</label>
               <input
@@ -220,8 +269,8 @@ export default function PassengerSearch() {
               </button>
             </div>
           </form>
-          <Passenger_nav />
         </div>
+        <Passenger_nav />
       </div>
     </>
   );

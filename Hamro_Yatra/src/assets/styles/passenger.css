@@ -1,22 +1,17 @@
 .passenger-main-container {
   margin: 0 auto;
-  padding: 15px;
-  width: 95vw;
-  min-height: 8cap;
+  width: 90vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.find-ride-container {
-  margin: 0 auto;
-  margin-top: 25px;
   background-color: #fff;
-  padding: 15px;
-  width: 80%;
-  border-radius: 12px;
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
     rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+.find-ride-container {
+  background-color: #fff;
+  width: 80%;
+  border-radius: 12px;
 }
 
 .btn-search {
@@ -77,7 +72,7 @@
 /* Responsive Design */
 @media screen and (max-width: 600px) {
   .find-ride-container {
-    margin-top: 45px;
+    margin-top: 65px;
   }
 
   .btn-search {
