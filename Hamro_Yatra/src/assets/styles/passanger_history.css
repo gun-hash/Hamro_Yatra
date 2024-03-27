@@ -1,0 +1,76 @@
+.ride-history-container {
+  padding: 20px; /* Increased padding for better spacing inside the card */
+  width: 30%;
+  margin: 20px auto;
+  /* Lighter border color for a subtle effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  border-radius: 10px; /* Rounded corners for the card style */
+  background-color: #ffffff; /* Optional: Background color */
+}
+
+.ride-history-main-container {
+  width: 90vw;
+  padding: 20px;
+  background-color: #fff;
+}
+.ride-card {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  margin-bottom: 20px;
+}
+
+.ride-card h3 {
+  font-size: 18px;
+  color: #0b1187;
+  margin-bottom: 10px;
+}
+
+.ride-card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.ride-card button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ride-card button:hover {
+  background-color: #0056b3;
+}
+
+@media screen and (max-width: 600px) {
+  .ride-history-main-container {
+    height: 85vh;
+  }
+  .ride-history-container {
+    width: 80%;
+  }
+  .navbar {
+    width: 100%;
+  }
+  .ride-card {
+    padding: 15px;
+  }
+
+  .ride-card h3 {
+    font-size: 15px;
+  }
+
+  .ride-card p {
+    font-size: 12px;
+  }
+
+  .ride-card button {
+    font-size: 12px;
+  }
+}

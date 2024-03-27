@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
 import "../../assets/styles/passenger.css";
@@ -6,6 +6,10 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 
 export default function PassengerSearch() {
   const { email } = useStateContext();
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState({
+    from: [],
+    to: [],
+  });
 
   const [formData, setFormData] = useState({
     from: "",
@@ -16,7 +20,6 @@ export default function PassengerSearch() {
 
   const [seatsNeeded, setSeatsNeeded] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
-
 
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
@@ -34,7 +37,7 @@ export default function PassengerSearch() {
     const { name, value } = e.target;
     if (name === "date") {
       // Format the date to 'YYYY-MM-DD'
-      const formattedDate = value.split('T')[0];
+      const formattedDate = value.split("T")[0];
       setFormData((prevData) => ({
         ...prevData,
         [name]: formattedDate,
@@ -45,27 +48,62 @@ export default function PassengerSearch() {
         [name]: value,
       }));
     }
+    if (name === "from" || name === "to") {
+      fetchAutocompleteSuggestions(value, name);
+    }
   };
 
   const handleDayChange = (e) => {
     const { value } = e.target;
     if (selectedDays.includes(value)) {
-      setSelectedDays(selectedDays.filter(day => day !== value));
+      setSelectedDays(selectedDays.filter((day) => day !== value));
     } else {
       setSelectedDays([...selectedDays, value]);
+    }
+  };
+
+  const fetchAutocompleteSuggestions = async (input, type) => {
+    if (input.length > 2) {
+      try {
+        const response = await axios.get(
+          `https://route-init.gallimap.com/api/v1/search/autocomplete`,
+          {
+            params: {
+              accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d", // Replace with your actual GalliMaps access token
+              word: input,
+              lat: "27.6922368", // Replace these with actual values
+              lng: "85.3245952", // Replace these with actual values
+            },
+          }
+        );
+        if (response.data && response.data.data) {
+          setAutocompleteSuggestions((prev) => ({
+            ...prev,
+            [type]: response.data.data.map((item) => item.name),
+          }));
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching autocomplete suggestions for ${type}:`,
+          error
+        );
+      }
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:8080/passenger/search?email=${email}`, {
-        seats: seatsNeeded,
-        daysOfWeek: selectedDays,
-        ...formData,
-      });
+      const response = await axios.post(
+        `http://localhost:8080/passenger/search?email=${email}`,
+        {
+          seats: seatsNeeded,
+          daysOfWeek: selectedDays,
+          ...formData,
+        }
+      );
       if (response.status === 200) {
-        window.location.replace('/passenger/ride-history'); // Redirect to rides history page
+        window.location.replace("/passenger/ride-history"); // Redirect to rides history page
       } else {
         console.error("Error saving ride");
         // Handle other status codes if needed
@@ -90,7 +128,13 @@ export default function PassengerSearch() {
                 value={formData.from}
                 onChange={handleChange}
                 placeholder="Enter your starting location"
+                list="from-suggestions"
               />
+              <datalist id="from-suggestions">
+                {autocompleteSuggestions.from.map((suggestion, index) => (
+                  <option key={index} value={suggestion} />
+                ))}
+              </datalist>
             </div>
             <div className="input-group">
               <label htmlFor="toInput">To:</label>
@@ -101,8 +145,15 @@ export default function PassengerSearch() {
                 value={formData.to}
                 onChange={handleChange}
                 placeholder="Enter your destination"
+                list="to-suggestions"
               />
+              <datalist id="to-suggestions">
+                {autocompleteSuggestions.to.map((suggestion, index) => (
+                  <option key={index} value={suggestion} />
+                ))}
+              </datalist>
             </div>
+
             <div className="input-group">
               <label htmlFor="dateInput">When:</label>
               <input
@@ -116,7 +167,7 @@ export default function PassengerSearch() {
                 type="time"
                 id="timeInput"
                 name="time"
-                style={{ margin: '20px 0' }}
+                style={{ margin: "20px 0" }}
                 value={formData.time}
                 onChange={handleChange}
               />
@@ -124,14 +175,18 @@ export default function PassengerSearch() {
             <div className="input-group">
               <label>Seats needed:</label>
               <div className="seat-counter">
-                <button type="button" onClick={decrementSeats}>-</button>
+                <button type="button" onClick={decrementSeats}>
+                  -
+                </button>
                 <span>{seatsNeeded}</span>
-                <button type="button" onClick={incrementSeats}>+</button>
+                <button type="button" onClick={incrementSeats}>
+                  +
+                </button>
               </div>
             </div>
             <div className="input-group">
               <label>Days of the week:</label>
-              <div>
+              <div className="weeks-group">
                 <label>
                   <input
                     type="checkbox"
@@ -209,13 +264,14 @@ export default function PassengerSearch() {
               </div>
             </div>
             <div className="btn-group">
-              <button type="submit" className="btn-search">Search</button>
+              <button type="submit" className="btn-search">
+                Search
+              </button>
             </div>
           </form>
         </div>
-
+        <Passenger_nav />
       </div>
-      <Passenger_nav />
     </>
   );
 }
