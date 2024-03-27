@@ -88,6 +88,7 @@ export const loginUser = async (req, res) => {
         .status(401)
         .json({ error: "User with this email does not exist." });
     }
+    
     if (!user.isVerified) {
       const subject = "Verify Your Email";
       const encodedToken = encodeURIComponent(user.verificationToken);
