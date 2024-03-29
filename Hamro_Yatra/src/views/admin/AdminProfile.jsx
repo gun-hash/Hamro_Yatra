@@ -4,7 +4,7 @@ import AdminNav from "../../components/admin/AdminNav";
 import { useStateContext } from "../../context/ContextProvider";
 import profilePic from "../../assets/Images/profilepic.webp";
 import LogoutButton from "../../components/common/LogoutButton";
-
+import "../../assets/styles/adminprofile.css";
 function AdminProfile() {
   const [userData, setUserData] = useState(null);
   const { email } = useStateContext();
@@ -24,7 +24,7 @@ function AdminProfile() {
 
   return (
     <>
-      <div className="passenger-profile-container">
+      <div className="admin-profile-container">
         <div className="profile-picture">
           {userData && userData.photo ? (
             <img src={userData.photo} alt="User" className="user-image" />
@@ -49,9 +49,9 @@ function AdminProfile() {
             <p>Loading user data...</p>
           )}
         </div>
+        <LogoutButton />
+        <AdminNav />
       </div>
-      <LogoutButton />
-      <AdminNav />
     </>
   );
 }

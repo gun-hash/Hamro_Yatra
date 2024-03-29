@@ -10,16 +10,30 @@ export default function PassengerSearch() {
     from: [],
     to: [],
   });
-
   const [formData, setFormData] = useState({
     from: "",
     to: "",
     date: "",
     time: "",
   });
-
   const [seatsNeeded, setSeatsNeeded] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [userLocation, setUserLocation] = useState({ lat: "", lng: "" });
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        console.error("Geolocation permission denied or not available", error);
+        // Handle fallback or error state here
+      }
+    );
+  }, []);
 
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
@@ -69,10 +83,10 @@ export default function PassengerSearch() {
           `https://route-init.gallimap.com/api/v1/search/autocomplete`,
           {
             params: {
-              accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d", // Replace with your actual GalliMaps access token
+              accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
               word: input,
-              lat: "27.6922368", // Replace these with actual values
-              lng: "85.3245952", // Replace these with actual values
+              lat: userLocation.lat,
+              lng: userLocation.lng,
             },
           }
         );

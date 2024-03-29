@@ -1,0 +1,31 @@
+.user-data-main-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+}
+.user-card {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  padding: 12px;
+  height: 200px;
+  border-radius: 12px;
+}
+.users-data-container {
+  width: 100%; /* Full width on smaller screens */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
+  grid-template-rows: auto; /* Auto-adjust the row height */
+  gap: 10px; /* Adjust based on your preference */
+}
+
+@media (max-width: 768px) {
+  .users-data-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+  }
+}
+
+/* For mobile devices (typically screens smaller than 480px) */
+@media (max-width: 480px) {
+  .users-data-container {
+    grid-template-columns: 1fr; /* 1 column for mobile screens */
+  }
+}
