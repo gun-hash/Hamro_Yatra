@@ -6,6 +6,7 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 
 export default function PassengerSearch() {
   const { email } = useStateContext();
+
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState({
     from: [],
     to: [],
@@ -19,6 +20,7 @@ export default function PassengerSearch() {
   const [seatsNeeded, setSeatsNeeded] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
   const [userLocation, setUserLocation] = useState({ lat: "", lng: "" });
+  const [latLng, setLatLng] = useState({ lat: "", lng: "" });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -34,6 +36,10 @@ export default function PassengerSearch() {
       }
     );
   }, []);
+
+  // useEffect(() => {
+  //   setLatLng({ lat: userLocation.lat, lng: userLocation.lng });
+  // }, [userLocation]);
 
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
@@ -107,24 +113,39 @@ export default function PassengerSearch() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await axios.post(
-        `http://localhost:8080/passenger/search?email=${email}`,
-        {
-          seats: seatsNeeded,
-          daysOfWeek: selectedDays,
-          ...formData,
-        }
-      );
-      if (response.status === 200) {
-        window.location.replace("/passenger/ride-history"); // Redirect to rides history page
-      } else {
-        console.error("Error saving ride");
-        // Handle other status codes if needed
+    console.log(formData);
+
+    const response = await axios.get(
+      'https://route-init.gallimap.com/api/v1/search/currentLocation',
+      {
+        params: {
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+          name:formData.from,
+          currentLat: userLocation.lat,
+          currentLng: userLocation.lng,
+        },
       }
-    } catch (error) {
-      console.error("Error searching for ride:", error.message);
-    }
+    );
+    const res = await axios.get(
+      'https://route-init.gallimap.com/api/v1/search/currentLocation',
+      {
+        params: {
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+          name:formData.to,
+          currentLat: userLocation.lat,
+          currentLng: userLocation.lng,
+        },
+      }
+    );
+
+    const fromLat = response.data.data.features[0].geometry.coordinates[1];
+    const fromLng = response.data.data.features[0].geometry.coordinates[0];
+    // const toLat = toResponse.data.data.features[0].geometry.coordinates[1];
+    // const toLng = toResponse.data.data.features[0].geometry.coordinates[0];
+     setLatLng({ lat: fromLat, lng: fromLng });
+    // setLatLng({ lat: toLat, lng: toLng });
+    // console.log(response.data.data.features[0].geometry.coordinates)
+    console.log(res.data.data.features[0].geometry.coordinates)
   };
 
   return (
@@ -283,6 +304,15 @@ export default function PassengerSearch() {
               </button>
             </div>
           </form>
+        </div>
+        <div>
+          {latLng.lat && latLng.lng && (
+            <iframe
+              title="Gallimaps Embed Link"
+              src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=Yatra&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+              style={{ width: '100%', height: '400px', border: 'none' }}
+            />
+          )}
         </div>
         <Passenger_nav />
       </div>
