@@ -7,6 +7,7 @@
   background-color: #fff;
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
     rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+    border-radius: 12px;
 }
 .find-ride-container {
   background-color: #fff;
@@ -68,6 +69,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2px;
+}
+.map-container{
+  width: 100%;
+  margin: 12px;
 }
 /* Responsive Design */
 @media screen and (max-width: 600px) {

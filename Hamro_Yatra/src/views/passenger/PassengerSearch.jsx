@@ -305,7 +305,7 @@ export default function PassengerSearch() {
             </div>
           </form>
         </div>
-        <div>
+        <div className="map-container">
           {latLng.lat && latLng.lng && (
             <iframe
               title="Gallimaps Embed Link"
