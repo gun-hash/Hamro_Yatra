@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
 import DriverNav from "../../components/driver/DriverNav";
-
+import "../../assets/styles/Driver.css";
 export default function DriverSetDefaultRide() {
   const { email } = useStateContext();
 
@@ -212,15 +212,15 @@ export default function DriverSetDefaultRide() {
                 </label>
               </div>
             </div>
-            <div className="btn-group">
+            <div className="btn-group" style={{ marginTop: "22px" }}>
               <button type="submit" className="btn-search">
                 Set Default Ride
               </button>
             </div>
           </form>
         </div>
+        <DriverNav />
       </div>
-      <DriverNav />
     </>
   );
 }

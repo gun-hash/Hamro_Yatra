@@ -19,7 +19,7 @@
   height: 40px;
   width: 100%;
   max-width: 450px;
-  background-color: #007bff;
+  background-color: #525ad9;
   color: #fff;
   border-radius: 10px;
   cursor: pointer;
@@ -53,7 +53,7 @@
 }
 
 .seat-counter button {
-  background-color: #007bff;
+  background-color: #525ad9;
   color: #fff;
   border: none;
   border-radius: 50%;

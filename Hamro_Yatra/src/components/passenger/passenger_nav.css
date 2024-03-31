@@ -15,7 +15,7 @@
 .navbar a {
   float: left;
   display: block;
-  color: #170c8d;
+  color: #525ad9;
   text-align: center;
   padding: 14px 20px;
   text-decoration: none;
@@ -23,7 +23,7 @@
 }
 
 .navbar a:hover {
-  background-color: rgb(31, 40, 169);
+  background-color: #525ad9;
   color: #fff;
   border-radius: 12px;
 }

@@ -1,0 +1,61 @@
+.driver-main-container {
+  background-color: #fff;
+  width: 90vw;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+/* profile css */
+.Driver-profile-container {
+  width: 90vw;
+  background-color: #fff;
+}
+.profile-picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.data-wapper {
+  display: flex;
+}
+.default-ride-data {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  border-radius: 11px;
+  height: 280px;
+  width: 50%;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+.user-data {
+  /* border: 1px solid; */
+  border-radius: 11px;
+  padding: 12px;
+  width: 50%;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+/* Ride History */
+.history-main-conatiner {
+  width: 90vw;
+  background-color: #fff;
+  border-radius: 11px;
+  padding: 12px;
+}
+.ride-history-container {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  background-color: #fff;
+}
+@media screen and (max-width: 600px) {
+  .data-wapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .default-ride-data {
+    width: 90%;
+  }
+  .user-data {
+    width: 87%;
+  }
+}
