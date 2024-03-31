@@ -1,6 +1,10 @@
 .passenger-profile-container {
   width: 90vw;
+<<<<<<< HEAD
   height: 90vh;
+=======
+  height: 80vh;
+>>>>>>> c4a23c9 (edit commit)
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;

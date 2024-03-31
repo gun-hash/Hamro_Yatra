@@ -4,7 +4,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
   height: 100vh;
+=======
+  /* height: 100vh; */
+>>>>>>> c4a23c9 (edit commit)
   margin: 0;
 }
 
