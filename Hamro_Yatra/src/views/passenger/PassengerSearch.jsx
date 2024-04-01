@@ -327,6 +327,7 @@ export default function PassengerSearch() {
           style={{ width: "100%", overflow: "hidden" }}
         >
           <div className="map-container">
+            <p className="heading">From</p>
             {latLng.lat && latLng.lng && (
               <iframe
                 title="Gallimaps Embed Link"
@@ -336,7 +337,8 @@ export default function PassengerSearch() {
             )}
           </div>
           <div className="map-container">
-            {latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng && (
+            <p className="heading">To</p>
+            {desLatLng.lat && desLatLng.lng && (
               <iframe
                 title="Gallimaps Route Visualization"
                 src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}

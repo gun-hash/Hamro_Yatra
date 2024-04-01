@@ -76,6 +76,21 @@
 .map-container{
   width: 50%;
   margin: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.heading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  border-radius: 6px;
+  height: 25px;
+  width: 15%;
+  background-color: red;
+  color: #fff;
 }
 /* Responsive Design */
 @media screen and (max-width: 600px) {
@@ -94,5 +109,10 @@
   .input-group input[type="time"] {
     width: 100%;
     max-width: 100%;
+  }
+  .heading{
+    width: 100%;
+    background-color: red;
+    color: #fff;
   }
 }
