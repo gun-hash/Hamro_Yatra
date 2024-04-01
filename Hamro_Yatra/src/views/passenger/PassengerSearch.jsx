@@ -21,7 +21,7 @@ export default function PassengerSearch() {
   const [selectedDays, setSelectedDays] = useState([]);
   const [userLocation, setUserLocation] = useState({ lat: "", lng: "" });
   const [latLng, setLatLng] = useState({ lat: "", lng: "" });
-  const [desLatLng,setDesLatLng] = useState({ lat: "", lng: "" });
+  const [desLatLng, setDesLatLng] = useState({ lat: "", lng: "" });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -117,22 +117,22 @@ export default function PassengerSearch() {
     console.log(formData);
 
     const response = await axios.get(
-      'https://route-init.gallimap.com/api/v1/search/currentLocation',
+      "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {
         params: {
           accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
-          name:formData.from,
+          name: formData.from,
           currentLat: userLocation.lat,
           currentLng: userLocation.lng,
         },
       }
     );
     const res = await axios.get(
-      'https://route-init.gallimap.com/api/v1/search/currentLocation',
+      "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {
         params: {
           accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
-          name:formData.to,
+          name: formData.to,
           currentLat: userLocation.lat,
           currentLng: userLocation.lng,
         },
@@ -141,25 +141,25 @@ export default function PassengerSearch() {
 
     const fromLat = response.data.data.features[0].geometry.coordinates[1];
     const fromLng = response.data.data.features[0].geometry.coordinates[0];
-     const toLat = res.data.data.features[0].geometry.coordinates[1];
+    const toLat = res.data.data.features[0].geometry.coordinates[1];
     const toLng = res.data.data.features[0].geometry.coordinates[0];
-     setLatLng({ lat: fromLat, lng: fromLng });
+    setLatLng({ lat: fromLat, lng: fromLng });
     setDesLatLng({ lat: toLat, lng: toLng });
 
     const resp = await axios.get(
-      'https://route-init.gallimap.com/api/v1/routing',
+      "https://route-init.gallimap.com/api/v1/routing",
       {
         params: {
-          mode: "car",
+          mode: "driving",
           srcLat: fromLat,
-          srcLng : fromLng,
-          dstLat : toLat,
-          dstLng : toLng,
+          srcLng: fromLng,
+          dstLat: toLat,
+          dstLng: toLng,
           accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
         },
       }
     );
-    console.log(resp)
+    console.log(resp);
     // // console.log(response.data.data.features[0].geometry.coordinates)
     // console.log(res.data.data.features[0].geometry.coordinates)
     // console.log(response);
@@ -322,14 +322,28 @@ export default function PassengerSearch() {
             </div>
           </form>
         </div>
-        <div className="map-container">
-          {latLng.lat && latLng.lng && (
-            <iframe
-              title="Gallimaps Embed Link"
-              src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=Yatra&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-              style={{ width: '100%', height: '400px', border: 'none' }}
-            />
-          )}
+        <div
+          className="main-map-container"
+          style={{ width: "100%", overflow: "hidden" }}
+        >
+          <div className="map-container">
+            {latLng.lat && latLng.lng && (
+              <iframe
+                title="Gallimaps Embed Link"
+                src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=From&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+                style={{ width: "100%", height: "400px", border: "none" }}
+              />
+            )}
+          </div>
+          <div className="map-container">
+            {latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng && (
+              <iframe
+                title="Gallimaps Route Visualization"
+                src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+                style={{ width: "100%", height: "400px", border: "none" }}
+              />
+            )}
+          </div>
         </div>
         <Passenger_nav />
       </div>

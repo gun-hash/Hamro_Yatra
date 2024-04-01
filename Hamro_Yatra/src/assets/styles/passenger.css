@@ -70,8 +70,11 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2px;
 }
+.main-map-container{
+  display: flex;
+}
 .map-container{
-  width: 100%;
+  width: 50%;
   margin: 12px;
 }
 /* Responsive Design */
