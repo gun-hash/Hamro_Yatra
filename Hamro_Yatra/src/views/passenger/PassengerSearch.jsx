@@ -21,6 +21,7 @@ export default function PassengerSearch() {
   const [selectedDays, setSelectedDays] = useState([]);
   const [userLocation, setUserLocation] = useState({ lat: "", lng: "" });
   const [latLng, setLatLng] = useState({ lat: "", lng: "" });
+  const [desLatLng,setDesLatLng] = useState({ lat: "", lng: "" });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -140,12 +141,28 @@ export default function PassengerSearch() {
 
     const fromLat = response.data.data.features[0].geometry.coordinates[1];
     const fromLng = response.data.data.features[0].geometry.coordinates[0];
-    // const toLat = toResponse.data.data.features[0].geometry.coordinates[1];
-    // const toLng = toResponse.data.data.features[0].geometry.coordinates[0];
+     const toLat = res.data.data.features[0].geometry.coordinates[1];
+    const toLng = res.data.data.features[0].geometry.coordinates[0];
      setLatLng({ lat: fromLat, lng: fromLng });
-    // setLatLng({ lat: toLat, lng: toLng });
-    // console.log(response.data.data.features[0].geometry.coordinates)
-    console.log(res.data.data.features[0].geometry.coordinates)
+    setDesLatLng({ lat: toLat, lng: toLng });
+
+    const resp = await axios.get(
+      'https://route-init.gallimap.com/api/v1/routing',
+      {
+        params: {
+          mode: "car",
+          srcLat: fromLat,
+          srcLng : fromLng,
+          dstLat : toLat,
+          dstLng : toLng,
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+        },
+      }
+    );
+    console.log(resp)
+    // // console.log(response.data.data.features[0].geometry.coordinates)
+    // console.log(res.data.data.features[0].geometry.coordinates)
+    // console.log(response);
   };
 
   return (

@@ -11,21 +11,14 @@
 
 </head>
 <body>
-    <iframe src="https://gallimap.com/static/map.html?lat=27.6672915&lng=85.3231529&markerColor=blue&markerLabel=Yatra&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d" title="Gallimaps Embed Link"></iframe>
+   
     <div id="map" style="height: 400px; width: 100%;"></div> <!-- Ensure the div has a size -->
     <script src="https://gallimap.com/static/dist/js/gallimaps.min.js"></script>
     <script>
-//const mapElement = document.getElementById('map');
-    gallimapsConfig.accessToken="2d858743-50e4-43a9-9b0a-e4b6a5933b5d";
-    let map = displayMap(19, 13, [27.6672915, 85.3231529]);
-    // if (mapContent instanceof HTMLElement) {
-    //     mapElement.appendChild(mapContent);
-    // } else if (typeof mapContent === 'string') {
-    //     // If displayMap returns HTML content as a string
-    //     mapElement.innerHTML = mapContent;
-    // } else {
-    //     console.error('Unexpected return type from displayMap');
-    // }
+var fromCoord = [27.1234,85.1234]; 
+var toCoord = [27.3456, 85.3456];
+				
+let map = searchRoute(fromCoord , toCoord, "driving", map, true) .then( (result) => { console.log(result); });
 </script>
 </body>
 </html>
