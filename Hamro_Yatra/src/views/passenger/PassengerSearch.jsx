@@ -6,10 +6,7 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 
 export default function PassengerSearch() {
   const { email } = useStateContext();
-<<<<<<< HEAD
-=======
 
->>>>>>> c4a23c9 (edit commit)
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState({
     from: [],
     to: [],
@@ -23,10 +20,7 @@ export default function PassengerSearch() {
   const [seatsNeeded, setSeatsNeeded] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
   const [userLocation, setUserLocation] = useState({ lat: "", lng: "" });
-<<<<<<< HEAD
-=======
   const [latLng, setLatLng] = useState({ lat: "", lng: "" });
->>>>>>> c4a23c9 (edit commit)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -43,13 +37,6 @@ export default function PassengerSearch() {
     );
   }, []);
 
-<<<<<<< HEAD
-=======
-  // useEffect(() => {
-  //   setLatLng({ lat: userLocation.lat, lng: userLocation.lng });
-  // }, [userLocation]);
-
->>>>>>> c4a23c9 (edit commit)
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
       setSeatsNeeded((prevSeats) => prevSeats + 1);
@@ -122,7 +109,6 @@ export default function PassengerSearch() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-<<<<<<< HEAD
     try {
       const response = await axios.post(
         `http://localhost:8080/passenger/search?email=${email}`,
@@ -141,7 +127,6 @@ export default function PassengerSearch() {
     } catch (error) {
       console.error("Error searching for ride:", error.message);
     }
-=======
     console.log(formData);
 
     const response = await axios.get(
@@ -149,7 +134,7 @@ export default function PassengerSearch() {
       {
         params: {
           accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
-          name:formData.from,
+          name: formData.from,
           currentLat: userLocation.lat,
           currentLng: userLocation.lng,
         },
@@ -160,7 +145,7 @@ export default function PassengerSearch() {
       {
         params: {
           accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
-          name:formData.to,
+          name: formData.to,
           currentLat: userLocation.lat,
           currentLng: userLocation.lng,
         },
@@ -171,11 +156,10 @@ export default function PassengerSearch() {
     const fromLng = response.data.data.features[0].geometry.coordinates[0];
     // const toLat = toResponse.data.data.features[0].geometry.coordinates[1];
     // const toLng = toResponse.data.data.features[0].geometry.coordinates[0];
-     setLatLng({ lat: fromLat, lng: fromLng });
+    setLatLng({ lat: fromLat, lng: fromLng });
     // setLatLng({ lat: toLat, lng: toLng });
     // console.log(response.data.data.features[0].geometry.coordinates)
     console.log(res.data.data.features[0].geometry.coordinates)
->>>>>>> c4a23c9 (edit commit)
   };
 
   return (
@@ -335,8 +319,6 @@ export default function PassengerSearch() {
             </div>
           </form>
         </div>
-<<<<<<< HEAD
-=======
         <div className="map-container">
           {latLng.lat && latLng.lng && (
             <iframe
@@ -346,9 +328,8 @@ export default function PassengerSearch() {
             />
           )}
         </div>
->>>>>>> c4a23c9 (edit commit)
         <Passenger_nav />
-      </div>
+      </div >
     </>
   );
 }
