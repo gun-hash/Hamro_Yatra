@@ -9,6 +9,26 @@ const DriverRideSchema = new mongoose.Schema({
     type: String, // Changed type to String
     required: true,
   },
+  fromlanglat: {
+    lat: {
+      type: String,
+      required: true,
+    },
+    lng: {
+      type: String,
+      required: true,
+    }
+  },
+  tolanglat: {
+    lat: {
+      type: String,
+      required: true,
+    },
+    lng: {
+      type: String,
+      required: true,
+    }
+  },
   driverID: {
     type: String,
     required: false,
@@ -28,7 +48,7 @@ const DriverRideSchema = new mongoose.Schema({
   daysOfWeek: {
     type: [String], // Array of strings
     required: true
-    },
+  },
 });
 
 const DriverRide = mongoose.model("DriverRide", DriverRideSchema);

@@ -16,11 +16,11 @@ const profileData = async (req, res) => {
 
 
 const search = async (req, res) => {
-  const { from, to, date, seats, time, daysOfWeek } = req.body;
+  const { from, to, date, seats, time, daysOfWeek, fromlanglat, tolanglat } = req.body;
   const { email } = req.query;
 
   try {
-    const rideReqUser = await User.findOne({email: email});
+    const rideReqUser = await User.findOne({ email: email });
     if (!rideReqUser) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -32,6 +32,8 @@ const search = async (req, res) => {
       from,
       to,
       date,
+      fromlanglat,
+      tolanglat,
       fare: 1200,
       passengerID: rideReqUser._id,
       time,

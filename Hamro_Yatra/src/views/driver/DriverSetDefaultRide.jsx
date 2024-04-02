@@ -15,6 +15,86 @@ export default function DriverSetDefaultRide() {
 
   const [seatsAvailable, setSeatsAvailable] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [userLocation, setUserLocation] = useState({ lat: "", lng: "" });
+  const [latLng, setLatLng] = useState({ lat: "", lng: "" });
+  const [desLatLng, setDesLatLng] = useState({ lat: "", lng: "" });
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = async () => {
+    setModalOpen(true);
+    const response = await axios.get(
+      "https://route-init.gallimap.com/api/v1/search/currentLocation",
+      {
+        params: {
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+          name: formData.from,
+          currentLat: userLocation.lat,
+          currentLng: userLocation.lng,
+        },
+      }
+    );
+
+
+    const res = await axios.get(
+      "https://route-init.gallimap.com/api/v1/search/currentLocation",
+      {
+        params: {
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+          name: formData.to,
+          currentLat: userLocation.lat,
+          currentLng: userLocation.lng,
+        },
+      }
+    );
+
+    const fromLat = response.data.data.features[0].geometry.coordinates[1];
+    const fromLng = response.data.data.features[0].geometry.coordinates[0];
+    const toLat = res.data.data.features[0].geometry.coordinates[1];
+    const toLng = res.data.data.features[0].geometry.coordinates[0];
+    setLatLng({ lat: fromLat, lng: fromLng });
+    setDesLatLng({ lat: toLat, lng: toLng });
+
+    const resp = await axios.get(
+      "https://route-init.gallimap.com/api/v1/routing",
+      {
+        params: {
+          mode: "driving",
+          srcLat: fromLat,
+          srcLng: fromLng,
+          dstLat: toLat,
+          dstLng: toLng,
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+        },
+      }
+    );
+    console.log(resp);
+    // // console.log(response.data.data.features[0].geometry.coordinates)
+    // console.log(res.data.data.features[0].geometry.coordinates)
+    // console.log(response);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        console.error("Geolocation permission denied or not available", error);
+        // Handle fallback or error state here
+      }
+    );
+  }, []);
+
+  // useEffect(() => {
+  //   setLatLng({ lat: userLocation.lat, lng: userLocation.lng });
+  // }, [userLocation]);
 
   const incrementSeats = () => {
     if (seatsAvailable < 3) {
@@ -42,6 +122,9 @@ export default function DriverSetDefaultRide() {
         [name]: value,
       }));
     }
+    if (name === "from" || name === "to") {
+      fetchAutocompleteSuggestions(value, name);
+    }
   };
 
   const handleDayChange = (e) => {
@@ -53,6 +136,35 @@ export default function DriverSetDefaultRide() {
     }
   };
 
+  const fetchAutocompleteSuggestions = async (input, type) => {
+    if (input.length > 2) {
+      try {
+        const response = await axios.get(
+          `https://route-init.gallimap.com/api/v1/search/autocomplete`,
+          {
+            params: {
+              accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+              word: input,
+              lat: userLocation.lat,
+              lng: userLocation.lng,
+            },
+          }
+        );
+        if (response.data && response.data.data) {
+          setAutocompleteSuggestions((prev) => ({
+            ...prev,
+            [type]: response.data.data.map((item) => item.name),
+          }));
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching autocomplete suggestions for ${type}:`,
+          error
+        );
+      }
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -61,6 +173,8 @@ export default function DriverSetDefaultRide() {
         {
           seats: seatsAvailable,
           daysOfWeek: selectedDays,
+          fromlanglat: latLng,
+          tolanglat: desLatLng,
           ...formData,
         }
       );
@@ -90,7 +204,13 @@ export default function DriverSetDefaultRide() {
                 value={formData.from}
                 onChange={handleChange}
                 placeholder="Enter your starting location"
+                list="from-suggestions"
               />
+              <datalist id="from-suggestions">
+                {autocompleteSuggestions.from.map((suggestion, index) => (
+                  <option key={index} value={suggestion} />
+                ))}
+              </datalist>
             </div>
             <div className="input-group">
               <label htmlFor="toInput">To:</label>
@@ -101,7 +221,45 @@ export default function DriverSetDefaultRide() {
                 value={formData.to}
                 onChange={handleChange}
                 placeholder="Enter your destination"
+                list="to-suggestions"
               />
+              <datalist id="to-suggestions">
+                {autocompleteSuggestions.to.map((suggestion, index) => (
+                  <option key={index} value={suggestion} />
+                ))}
+              </datalist>
+            </div>
+            <div className="ModalContainer">
+              <button onClick={openModal}>View Location on Map</button>
+              {modalOpen && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <span className="close" onClick={closeModal}>&times;</span>
+                    <div className="main-map-container" style={{ width: "100%", overflow: "hidden" }}>
+                      <div className="map-container">
+                        <p className="heading">From</p>
+                        {latLng.lat && latLng.lng && (
+                          <iframe
+                            title="Gallimaps Embed Link"
+                            src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=From&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+                            style={{ width: "100%", height: "400px", border: "none" }}
+                          />
+                        )}
+                      </div>
+                      <div className="map-container">
+                        <p className="heading">To</p>
+                        {desLatLng.lat && desLatLng.lng && (
+                          <iframe
+                            title="Gallimaps Route Visualization"
+                            src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+                            style={{ width: "100%", height: "400px", border: "none" }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="input-group">
               <label htmlFor="dateInput">When:</label>

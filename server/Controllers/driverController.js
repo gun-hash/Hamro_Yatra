@@ -31,10 +31,10 @@ const matchRide = async (req, res) => {
   const userEmail = req.query.email;
   const rideId = req.query.rideID;
   try {
-    const matchedDriver = await User.findOne({email: userEmail})
+    const matchedDriver = await User.findOne({ email: userEmail })
 
-    await Ride.updateOne({ _id: rideId }, {driverID: matchedDriver._id})
-    await Ride.updateOne({ _id: rideId }, {status: 'Ongoing'})
+    await Ride.updateOne({ _id: rideId }, { driverID: matchedDriver._id })
+    await Ride.updateOne({ _id: rideId }, { status: 'Ongoing' })
 
     res.status(200).json({ message: "Ride Matched successfully" });
   } catch (error) {
@@ -44,11 +44,11 @@ const matchRide = async (req, res) => {
 };
 
 const setDefaultRide = async (req, res) => {
-  const { from, to, date, seats, time, daysOfWeek } = req.body;
+  const { from, to, date, seats, time, daysOfWeek, fromlanglat, tolanglat } = req.body;
   const { email } = req.query;
 
   try {
-    const driverUser = await User.findOne({email: email});
+    const driverUser = await User.findOne({ email: email });
     if (!driverUser) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -62,6 +62,8 @@ const setDefaultRide = async (req, res) => {
       date,
       driverID: driverUser._id,
       time,
+      fromlanglat,
+      tolanglat,
       daysOfWeek,
     });
 

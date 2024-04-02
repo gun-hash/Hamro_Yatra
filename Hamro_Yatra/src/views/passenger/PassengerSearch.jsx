@@ -117,7 +117,6 @@ export default function PassengerSearch() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "date") {
-      // Format the date to 'YYYY-MM-DD'
       const formattedDate = value.split("T")[0];
       setFormData((prevData) => ({
         ...prevData,
@@ -174,7 +173,26 @@ export default function PassengerSearch() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/passenger/search?email=${email}`,
+        {
+          seats: seatsNeeded,
+          daysOfWeek: selectedDays,
+          fromlanglat: latLng,
+          tolanglat: desLatLng,
+          ...formData,
+        }
+      );
+      if (response.status === 200) {
+        window.location.replace("/passenger/ride-history"); // Redirect to rides history page
+      } else {
+        console.error("Error saving ride");
+        // Handle other status codes if needed
+      }
+    } catch (error) {
+      console.error("Error searching for ride:", error.message);
+    }
   };
 
   return (
@@ -217,7 +235,38 @@ export default function PassengerSearch() {
                 ))}
               </datalist>
             </div>
-
+            <div className="ModalContainer">
+              <button onClick={openModal}>View Location on Map</button>
+              {modalOpen && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <span className="close" onClick={closeModal}>&times;</span>
+                    <div className="main-map-container" style={{ width: "100%", overflow: "hidden" }}>
+                      <div className="map-container">
+                        <p className="heading">From</p>
+                        {latLng.lat && latLng.lng && (
+                          <iframe
+                            title="Gallimaps Embed Link"
+                            src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=From&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+                            style={{ width: "100%", height: "400px", border: "none" }}
+                          />
+                        )}
+                      </div>
+                      <div className="map-container">
+                        <p className="heading">To</p>
+                        {desLatLng.lat && desLatLng.lng && (
+                          <iframe
+                            title="Gallimaps Route Visualization"
+                            src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
+                            style={{ width: "100%", height: "400px", border: "none" }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="input-group">
               <label htmlFor="dateInput">When:</label>
               <input
@@ -333,38 +382,6 @@ export default function PassengerSearch() {
               </button>
             </div>
           </form>
-        </div>
-        <div className="ModalContainer">
-          <button onClick={openModal}>Open Modal</button>
-          {modalOpen && (
-            <div className="modal-overlay">
-              <div className="modal-content">
-                <span className="close" onClick={closeModal}>&times;</span>
-                <div className="main-map-container" style={{ width: "100%", overflow: "hidden" }}>
-                  <div className="map-container">
-                    <p className="heading">From</p>
-                    {latLng.lat && latLng.lng && (
-                      <iframe
-                        title="Gallimaps Embed Link"
-                        src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=From&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-                        style={{ width: "100%", height: "400px", border: "none" }}
-                      />
-                    )}
-                  </div>
-                  <div className="map-container">
-                    <p className="heading">To</p>
-                    {desLatLng.lat && desLatLng.lng && (
-                      <iframe
-                        title="Gallimaps Route Visualization"
-                        src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-                        style={{ width: "100%", height: "400px", border: "none" }}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
         <Passenger_nav />
       </div >
