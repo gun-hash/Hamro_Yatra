@@ -4,11 +4,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
   height: 100vh;
-=======
-  /* height: 100vh; */
->>>>>>> c4a23c9 (edit commit)
   margin: 0;
 }
 
@@ -22,6 +18,7 @@ body {
   border-radius: 10px;
   position: relative;
 }
+
 .arrow-container {
   height: 40px;
   width: 40px;
@@ -34,6 +31,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 .arrow {
   width: 0;
   height: 0;
@@ -50,9 +48,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .logo-register img {
   height: 100px;
 }
+
 .container {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

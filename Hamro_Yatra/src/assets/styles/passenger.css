@@ -7,11 +7,8 @@
   background-color: #fff;
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
     rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
-<<<<<<< HEAD
-=======
-    border-radius: 12px;
->>>>>>> c4a23c9 (edit commit)
 }
+
 .find-ride-container {
   background-color: #fff;
   width: 80%;
@@ -35,6 +32,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .input-group {
   /* border: 1px solid; */
   width: 90%;
@@ -67,19 +65,14 @@
   cursor: pointer;
   margin: 0 5px;
 }
+
 .weeks-group {
   margin: 12px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 2px;
 }
-<<<<<<< HEAD
-=======
-.map-container{
-  width: 100%;
-  margin: 12px;
-}
->>>>>>> c4a23c9 (edit commit)
+
 /* Responsive Design */
 @media screen and (max-width: 600px) {
   .find-ride-container {
@@ -97,5 +90,11 @@
   .input-group input[type="time"] {
     width: 100%;
     max-width: 100%;
+  }
+
+  .heading {
+    width: 100%;
+    background-color: red;
+    color: #fff;
   }
 }
