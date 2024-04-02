@@ -7,6 +7,7 @@
   background-color: #fff;
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
     rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  border-radius: 12px;
 }
 
 .find-ride-container {
@@ -73,6 +74,31 @@
   grid-gap: 2px;
 }
 
+.main-map-container {
+  display: flex;
+}
+
+.map-container {
+  width: 50%;
+  margin: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  border-radius: 6px;
+  height: 25px;
+  width: 15%;
+  background-color: red;
+  color: #fff;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 600px) {
   .find-ride-container {
@@ -91,6 +117,7 @@
     width: 100%;
     max-width: 100%;
   }
+
 
   .heading {
     width: 100%;
