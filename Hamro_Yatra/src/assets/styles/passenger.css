@@ -1,5 +1,6 @@
 .passenger-main-container {
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  margin-top: 80px;
   width: 90vw;
   display: flex;
   flex-direction: column;
@@ -74,12 +75,8 @@
   grid-gap: 2px;
 }
 
-.main-map-container {
-  display: flex;
-}
-
 .map-container {
-  width: 50%;
+  width: 100%;
   margin: 12px;
   display: flex;
   flex-direction: column;
@@ -94,8 +91,8 @@
   font-weight: 600;
   border-radius: 6px;
   height: 25px;
-  width: 15%;
-  background-color: red;
+  width: 100%;
+  background-color: #525ad9;
   color: #fff;
 }
 
@@ -118,7 +115,6 @@
     max-width: 100%;
   }
 
-
   .heading {
     width: 100%;
     background-color: red;
@@ -133,7 +129,6 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* semi-transparent black background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,6 +139,7 @@
   padding: 20px;
   border-radius: 5px;
   position: relative;
+  width: 100%;
 }
 
 .close {
@@ -154,6 +150,19 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: red;
-
-
+}
+.view-btn {
+  border: none;
+  background-color: #fff;
+  height: 35px;
+  border: 1px solid;
+  border-radius: 4px;
+  margin: 12px 0px 12px 0px;
+  cursor: pointer;
+  padding: 6px;
+}
+.view-btn:hover {
+  background-color: #525ad9;
+  border-radius: 4px;
+  color: #fff;
 }

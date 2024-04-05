@@ -1,10 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
 import DriverNav from "../../components/driver/DriverNav";
 import "../../assets/styles/Driver.css";
+import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+} from "react-leaflet";
+
 export default function DriverSetDefaultRide() {
   const { email } = useStateContext();
+
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState({
+    from: [],
+    to: [],
+  });
 
   const [formData, setFormData] = useState({
     from: "",
@@ -19,9 +35,22 @@ export default function DriverSetDefaultRide() {
   const [latLng, setLatLng] = useState({ lat: "", lng: "" });
   const [desLatLng, setDesLatLng] = useState({ lat: "", lng: "" });
   const [modalOpen, setModalOpen] = useState(false);
+  const [route, setRoute] = useState([]);
 
   const openModal = async () => {
     setModalOpen(true);
+    if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
+      const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
+
+      try {
+        const response = await axios.get(osrmRouteUrl);
+        const coords = response.data.routes[0].geometry.coordinates;
+        const latLngs = coords.map((coord) => [coord[1], coord[0]]);
+        setRoute(latLngs); // Set the route state
+      } catch (error) {
+        console.error("Failed to fetch route", error);
+      }
+    }
     const response = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {
@@ -33,7 +62,6 @@ export default function DriverSetDefaultRide() {
         },
       }
     );
-
 
     const res = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
@@ -230,31 +258,50 @@ export default function DriverSetDefaultRide() {
               </datalist>
             </div>
             <div className="ModalContainer">
-              <button onClick={openModal}>View Location on Map</button>
+              <button onClick={openModal} className="view-btn ">
+                View Location on Map
+              </button>
               {modalOpen && (
                 <div className="modal-overlay">
                   <div className="modal-content">
-                    <span className="close" onClick={closeModal}>&times;</span>
-                    <div className="main-map-container" style={{ width: "100%", overflow: "hidden" }}>
+                    <span className="close" onClick={closeModal}>
+                      &times;
+                    </span>
+                    <div
+                      className="main-map-container"
+                      style={{ width: "100%", overflow: "hidden" }}
+                    >
                       <div className="map-container">
-                        <p className="heading">From</p>
-                        {latLng.lat && latLng.lng && (
-                          <iframe
-                            title="Gallimaps Embed Link"
-                            src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=From&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-                            style={{ width: "100%", height: "400px", border: "none" }}
-                          />
-                        )}
-                      </div>
-                      <div className="map-container">
-                        <p className="heading">To</p>
-                        {desLatLng.lat && desLatLng.lng && (
-                          <iframe
-                            title="Gallimaps Route Visualization"
-                            src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-                            style={{ width: "100%", height: "400px", border: "none" }}
-                          />
-                        )}
+                        <p className="heading">Route</p>
+                        {latLng.lat &&
+                          latLng.lng &&
+                          desLatLng.lat &&
+                          desLatLng.lng && (
+                            <MapContainer
+                              center={[
+                                (latLng.lat + desLatLng.lat) / 2,
+                                (latLng.lng + desLatLng.lng) / 2,
+                              ]}
+                              zoom={13}
+                              scrollWheelZoom={false}
+                              style={{ height: "400px", width: "100%" }}
+                            >
+                              <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                              />
+                              <Marker position={[latLng.lat, latLng.lng]}>
+                                <Popup>Starting Location</Popup>
+                              </Marker>
+                              <Marker position={[desLatLng.lat, desLatLng.lng]}>
+                                <Popup>Destination</Popup>
+                              </Marker>
+                              {route.length > 0 && (
+                                <Polyline positions={route} color="blue" />
+                              )}{" "}
+                              {/* Draw the route */}
+                            </MapContainer>
+                          )}
                       </div>
                     </div>
                   </div>

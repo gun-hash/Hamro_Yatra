@@ -3,9 +3,22 @@ import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
 import "../../assets/styles/passenger.css";
 import Passenger_nav from "../../components/passenger/passenger_nav";
+import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+} from "react-leaflet";
+
+import "leaflet/dist/leaflet.css";
 
 export default function PassengerSearch() {
   const { email } = useStateContext();
+  const [route, setRoute] = useState([]);
 
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState({
     from: [],
@@ -28,6 +41,18 @@ export default function PassengerSearch() {
 
   const openModal = async () => {
     setModalOpen(true);
+    if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
+      const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
+
+      try {
+        const response = await axios.get(osrmRouteUrl);
+        const coords = response.data.routes[0].geometry.coordinates;
+        const latLngs = coords.map((coord) => [coord[1], coord[0]]);
+        setRoute(latLngs); // Set the route state
+      } catch (error) {
+        console.error("Failed to fetch route", error);
+      }
+    }
     const response = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {
@@ -39,7 +64,6 @@ export default function PassengerSearch() {
         },
       }
     );
-
 
     const res = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
@@ -235,33 +259,48 @@ export default function PassengerSearch() {
                 ))}
               </datalist>
             </div>
+
             <div className="ModalContainer">
-              <button onClick={openModal}>View Location on Map</button>
+              <button onClick={openModal} className="view-btn">
+                View Location on Map
+              </button>
               {modalOpen && (
                 <div className="modal-overlay">
                   <div className="modal-content">
-                    <span className="close" onClick={closeModal}>&times;</span>
-                    <div className="main-map-container" style={{ width: "100%", overflow: "hidden" }}>
-                      <div className="map-container">
-                        <p className="heading">From</p>
-                        {latLng.lat && latLng.lng && (
-                          <iframe
-                            title="Gallimaps Embed Link"
-                            src={`https://gallimap.com/static/map.html?lat=${latLng.lat}&lng=${latLng.lng}&markerColor=blue&markerLabel=From&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-                            style={{ width: "100%", height: "400px", border: "none" }}
-                          />
+                    <span className="close" onClick={closeModal}>
+                      &times;
+                    </span>
+                    <div className="map-container">
+                      <p className="heading">Route</p>
+                      {latLng.lat &&
+                        latLng.lng &&
+                        desLatLng.lat &&
+                        desLatLng.lng && (
+                          <MapContainer
+                            center={[
+                              (latLng.lat + desLatLng.lat) / 2,
+                              (latLng.lng + desLatLng.lng) / 2,
+                            ]}
+                            zoom={13}
+                            scrollWheelZoom={false}
+                            style={{ height: "400px", width: "100%" }}
+                          >
+                            <TileLayer
+                              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            />
+                            <Marker position={[latLng.lat, latLng.lng]}>
+                              <Popup>Starting Location</Popup>
+                            </Marker>
+                            <Marker position={[desLatLng.lat, desLatLng.lng]}>
+                              <Popup>Destination</Popup>
+                            </Marker>
+                            {route.length > 0 && (
+                              <Polyline positions={route} color="blue" />
+                            )}{" "}
+                            {/* Draw the route */}
+                          </MapContainer>
                         )}
-                      </div>
-                      <div className="map-container">
-                        <p className="heading">To</p>
-                        {desLatLng.lat && desLatLng.lng && (
-                          <iframe
-                            title="Gallimaps Route Visualization"
-                            src={`https://gallimap.com/static/map.html?lat=${desLatLng.lat}&lng=${desLatLng.lng}}&markerColor=red&markerLabel=To&accessToken=2d858743-50e4-43a9-9b0a-e4b6a5933b5d`}
-                            style={{ width: "100%", height: "400px", border: "none" }}
-                          />
-                        )}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -384,7 +423,7 @@ export default function PassengerSearch() {
           </form>
         </div>
         <Passenger_nav />
-      </div >
+      </div>
     </>
   );
 }
