@@ -58,9 +58,7 @@ export default function DriverSetDefaultRide() {
     }
   }, [modalOpen, latLng, desLatLng]);
 
-  const openModal = async () => {
-    setModalOpen(true);
-
+  const fetchLongLat = async () => {
     const response = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {
@@ -91,6 +89,12 @@ export default function DriverSetDefaultRide() {
     const toLng = res.data.data.features[0].geometry.coordinates[0];
     setLatLng({ lat: fromLat, lng: fromLng });
     setDesLatLng({ lat: toLat, lng: toLng });
+  }
+
+  const openModal = async () => {
+    setModalOpen(true);
+
+    fetchLongLat()
 
     const resp = await axios.get(
       "https://route-init.gallimap.com/api/v1/routing",
@@ -205,6 +209,7 @@ export default function DriverSetDefaultRide() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    fetchLongLat()
     try {
       const response = await axios.post(
         `http://localhost:8080/driver/setdefaultride?email=${email}`,
