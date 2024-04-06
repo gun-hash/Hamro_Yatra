@@ -1,6 +1,9 @@
 import User from "../Models/User.js";
 import Ride from "../Models/Ride.js";
 import dotenv from "dotenv";
+import DriverRide from "../Models/DriverRide.js";
+import { matchPassengerToDrivers } from "../Scripts/knn.js";
+
 dotenv.config();
 
 const profileData = async (req, res) => {
@@ -14,7 +17,6 @@ const profileData = async (req, res) => {
   }
 };
 
-
 const search = async (req, res) => {
   const { from, to, date, seats, time, daysOfWeek, fromlanglat, tolanglat } = req.body;
   const { email } = req.query;
@@ -24,7 +26,6 @@ const search = async (req, res) => {
     if (!rideReqUser) {
       return res.status(404).json({ error: "User not found" });
     }
-
 
     const newRide = new Ride({
       email,
@@ -41,10 +42,19 @@ const search = async (req, res) => {
       daysOfWeek,
     });
 
-    await newRide.save()
+    await newRide.save();
 
-    res.status(200).json({ message: "Ride Saved" });
+    const freeDrivers = await DriverRide.find({ status: 'free' });
+    const matchedDrivers = matchPassengerToDrivers(newRide, freeDrivers);
+
+    // Update DriverRide status to 'busy' for matched drivers
+    for (const driverId of matchedDrivers) {
+      await DriverRide.findOneAndUpdate({ driverId, status: 'free' }, { status: 'busy' });
+    }
+
+    res.status(200).json({ message: "Ride Saved", matchedDrivers });
   } catch (error) {
+    console.error("Error saving ride:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -53,7 +63,7 @@ const history = async (req, res) => {
   const userEmail = req.query.email;
   try {
     const currentUser = await User.findOne({ email: userEmail });
-    const rideHistory = await Ride.find({ passengerID: currentUser._id })
+    const rideHistory = await Ride.find({ passengerID: currentUser._id });
     res.json({ rideHistory });
   } catch (error) {
     console.error("Error fetching user:", error.message);
@@ -75,6 +85,5 @@ const deleteRide = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 export { profileData, search, history, deleteRide };

@@ -49,6 +49,10 @@ const DriverRideSchema = new mongoose.Schema({
     type: [String], // Array of strings
     required: true
   },
+  status: {
+    type: String,
+    default: 'free'
+  },
 });
 
 const DriverRide = mongoose.model("DriverRide", DriverRideSchema);
