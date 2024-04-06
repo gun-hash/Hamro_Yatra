@@ -27,7 +27,7 @@ function findNearestDrivers(passenger, drivers) {
 
     const distances = [];
     for (const driver of validDrivers) {
-        const distance = calcDistance(passenger.from_latitude, passenger.from_longitude, driver.from_latitude, driver.from_longitude);
+        const distance = calcDistance(passenger.fromlanglat.lat, passenger.fromlanglat.lng, driver.fromlanglat.lat, driver.fromlanglat.lng);
         distances.push({ driver, distance });
     }
     distances.sort((a, b) => a.distance - b.distance); // Sort distances in ascending order
