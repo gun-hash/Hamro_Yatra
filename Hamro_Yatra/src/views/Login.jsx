@@ -54,7 +54,7 @@ const Login = () => {
         settingToken(authtoken);
         settingEmail(email);
       } else {
-        toast.warn(response.data.message);
+        toast.warn(response.data.error);
       }
     } catch (error) {
       console.error("Error logging in:", error.message);

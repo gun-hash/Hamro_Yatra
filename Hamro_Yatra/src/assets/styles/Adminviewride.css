@@ -1,31 +1,137 @@
 .user-data-main-container {
-  background-color: #fff;
   padding: 20px;
-  border-radius: 12px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 20px auto;
 }
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 30px;
+  color: #555;
+}
+
+.users-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.users-data-table thead {
+  background-color: #525ad9;
+  color: #ffffff;
+}
+
+.users-data-table thead th {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.users-data-table tbody td {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.users-data-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.users-data-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.no-users-message {
+  text-align: center;
+  color: #888;
+  padding: 20px 0;
+}
+
 .user-card {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  padding: 12px;
-  height: 200px;
-  border-radius: 12px;
+  background: #f9f9f9;
+  border-left: 4px solid #5cb85c;
+  padding: 10px;
+  margin-bottom: 10px;
 }
-.users-data-container {
-  width: 100%; /* Full width on smaller screens */
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
-  grid-template-rows: auto; /* Auto-adjust the row height */
-  gap: 10px; /* Adjust based on your preference */
+
+.loading-text {
+  text-align: center;
+  color: #555;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+/* Styling for the AdminNav component if it has specific class names */
+.admin-nav {
+  padding: 10px;
+  background: #333;
+  color: #fff;
+}
+
+.admin-nav a {
+  color: #fff;
+  padding: 5px 15px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.admin-nav a:hover {
+  background-color: #555;
+}
+
+/* Button styles for edit/delete actions */
+.button-edit,
+.button-delete {
+  padding: 5px 10px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.button-edit {
+  background-color: #f0ad4e;
+}
+
+.button-delete {
+  background-color: #d9534f;
+}
+
+.button-edit:hover {
+  background-color: #ec971f;
+}
+
+.button-delete:hover {
+  background-color: #c9302c;
 }
 
 @media (max-width: 768px) {
-  .users-data-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+  .users-data-table {
+    font-size: 12px;
   }
 }
-
-/* For mobile devices (typically screens smaller than 480px) */
-@media (max-width: 480px) {
-  .users-data-container {
-    grid-template-columns: 1fr; /* 1 column for mobile screens */
-  }
+.btn-sus {
+  border: none;
+  height: 30px;
+  width: 70px;
+  padding: 6px;
+  background-color: #f0ad4e;
+  color: #fff;
+  border-radius: 5px;
+}
+.btn-del {
+  border: none;
+  height: 30px;
+  width: 70px;
+  padding: 6px;
+  background-color: red;
+  color: #fff;
+  border-radius: 5px;
 }

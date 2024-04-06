@@ -37,20 +37,30 @@ export default function DriverSetDefaultRide() {
   const [modalOpen, setModalOpen] = useState(false);
   const [route, setRoute] = useState([]);
 
+  useEffect(() => {
+    const fetchRoute = async () => {
+      if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
+        const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
+
+        try {
+          const response = await axios.get(osrmRouteUrl);
+          const coords = response.data.routes[0].geometry.coordinates;
+          const latLngs = coords.map((coord) => [coord[1], coord[0]]);
+          setRoute(latLngs); // Set the route state
+        } catch (error) {
+          console.error("Failed to fetch route", error);
+        }
+      }
+    };
+
+    if (modalOpen) {
+      fetchRoute();
+    }
+  }, [modalOpen, latLng, desLatLng]);
+
   const openModal = async () => {
     setModalOpen(true);
-    if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
-      const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
 
-      try {
-        const response = await axios.get(osrmRouteUrl);
-        const coords = response.data.routes[0].geometry.coordinates;
-        const latLngs = coords.map((coord) => [coord[1], coord[0]]);
-        setRoute(latLngs); // Set the route state
-      } catch (error) {
-        console.error("Failed to fetch route", error);
-      }
-    }
     const response = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {

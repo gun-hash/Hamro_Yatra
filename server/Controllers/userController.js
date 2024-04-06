@@ -55,7 +55,6 @@ export const verifyEmail = async (req, res) => {
       email: { $regex: new RegExp("^" + decoded.email, "i") },
     });
 
-
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -68,7 +67,6 @@ export const verifyEmail = async (req, res) => {
     // Mark the user as verified
     user.isVerified = true;
     await user.save();
-
 
     // Redirect to the login page or send a success response
     res.send('<a href="http://localhost:5173/login">Success Go to login</a>'); // You can modify the redirect URL based on your project structure
@@ -88,7 +86,7 @@ export const loginUser = async (req, res) => {
         .status(401)
         .json({ error: "User with this email does not exist." });
     }
-    
+
     if (!user.isVerified) {
       const subject = "Verify Your Email";
       const encodedToken = encodeURIComponent(user.verificationToken);
@@ -107,7 +105,12 @@ export const loginUser = async (req, res) => {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
-      return res.status(401).json({ error: "Wrong Password" });
+      return res.status(200).json({ error: "Wrong Password" });
+    }
+    if (user.isSuspended === true) {
+      return res.status(200).json({
+        error: "You are suspended !! Please contact Hamro Yatra Support",
+      });
     }
 
     const authtoken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
@@ -120,4 +123,3 @@ export const loginUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
-

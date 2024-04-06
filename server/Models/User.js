@@ -29,8 +29,12 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isSuspended: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
 
-export default User
+export default User;
