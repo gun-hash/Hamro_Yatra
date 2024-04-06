@@ -42,15 +42,14 @@ const search = async (req, res) => {
       daysOfWeek,
     });
 
-    await newRide.save();
+    // await newRide.save();
+
+    const currRide = { seats, date, fromlanglat, tolanglat, passengerID: rideReqUser._id, time, daysOfWeek }
 
     const freeDrivers = await DriverRide.find({ status: 'free' });
-    const matchedDrivers = matchPassengerToDrivers(newRide, freeDrivers);
-
-    // Update DriverRide status to 'busy' for matched drivers
-    for (const driverId of matchedDrivers) {
-      await DriverRide.findOneAndUpdate({ driverId, status: 'free' }, { status: 'busy' });
-    }
+    // console.log("free rider -", freeDrivers)
+    const matchedDrivers = await matchPassengerToDrivers(currRide, freeDrivers);
+    // console.log("matched rider -", matchedDrivers)
 
     res.status(200).json({ message: "Ride Saved", matchedDrivers });
   } catch (error) {

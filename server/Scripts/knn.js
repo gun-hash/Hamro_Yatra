@@ -1,50 +1,87 @@
-// Function to calculate distance between two coordinates
+
+// Function to parse time strings into minutes for comparison
+function parseTimeToMinutes(timeString) {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours * 60 + minutes;
+}
+
+// Function to check if a driver's time is within an acceptable range of the passenger's requested time
+function isTimeWithinRange(driverTime, passengerTime, rangeMinutes = 30) {
+    const driverTimeMinutes = parseTimeToMinutes(driverTime);
+    const passengerTimeMinutes = parseTimeToMinutes(passengerTime);
+    const timeDifference = Math.abs(driverTimeMinutes - passengerTimeMinutes);
+    return timeDifference <= rangeMinutes;
+}
+
+// Function to calculate the distance between two coordinates asynchronously
 async function calcDistance(srcLat, srcLng, dstLat, dstLng) {
-    accessToken = ' 2d858743-50e4-43a9-9b0a-e4b6a5933b5d'
-    const url = `https://route-init.gallimap.com/api/v1/routing/distance?mode=${'driving'}&srcLat=${srcLat}&srcLng=${srcLng}&dstLat=${dstLat}&dstLng=${dstLng}&accessToken=${accessToken}`;
+    // Convert each parameter to a string and truncate to 16 characters if necessary
+    srcLat = String(srcLat).slice(0, 16);
+    srcLng = String(srcLng).slice(0, 16);
+    dstLat = String(dstLat).slice(0, 16);
+    dstLng = String(dstLng).slice(0, 16);
+
+    // Now convert truncated strings back to floating point numbers
+    srcLat = parseFloat(srcLat);
+    srcLng = parseFloat(srcLng);
+    dstLat = parseFloat(dstLat);
+    dstLng = parseFloat(dstLng);
+
+    console.log(srcLat, srcLng, dstLat, dstLng)
+    // Construct the URL for the OSRM routing API
+    const url = `https://router.project-osrm.org/route/v1/driving/${srcLng},${srcLat};${dstLng},${dstLat}?overview=false`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
 
         if (response.ok) {
-            return data.distance; // Assuming the API response contains a field named "distance"
+            // The distance is usually part of the first route object in the routes array
+            const distance = data.routes[0].distance; // Distance in meters
+            return distance;
         } else {
-            throw new Error(data.message); // Throw error if API request fails
+            throw new Error('Error from OSRM API: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
-        console.error('Error fetching distance:', error.message);
-        return null; // Return null if there's an error
+        console.error('Error fetching distance:', error);
+        return null;
     }
 }
 
-// Function to find nearest drivers for a single passenger
-function findNearestDrivers(passenger, drivers) {
-    const validDrivers = drivers.filter(driver =>
-        driver.days_of_week.some(day => passenger.days_of_week.includes(day)) && // Check if days of week match
-        driver.travel_time === passenger.travel_time // Check if travel time matches
-    );
+// Asynchronous function to find nearest drivers that match all criteria
+async function findNearestDrivers(passenger, drivers) {
+    const distancePromises = drivers.map(async (driver) => {
+        const dayMatch = driver.daysOfWeek.some(day => passenger.daysOfWeek.includes(day));
+        const dateMatch = new Date(driver.date).toDateString() <= new Date(passenger.date).toDateString();
+        const timeMatch = isTimeWithinRange(driver.time, passenger.time);
+        const seatMatch = driver.seats >= passenger.seats;
 
-    const distances = [];
-    for (const driver of validDrivers) {
-        const distance = calcDistance(passenger.fromlanglat.lat, passenger.fromlanglat.lng, driver.fromlanglat.lat, driver.fromlanglat.lng);
-        distances.push({ driver, distance });
-    }
-    distances.sort((a, b) => a.distance - b.distance); // Sort distances in ascending order
-    return distances.slice(0, 3); // Return k nearest drivers
+        if (dayMatch && dateMatch && timeMatch && seatMatch) {
+            console.log(passenger.fromlanglat.lat, passenger.fromlanglat.lng,
+                driver.fromlanglat.lat, driver.fromlanglat.lng)
+            const distance = await calcDistance(
+                passenger.fromlanglat.lat, passenger.fromlanglat.lng,
+                driver.fromlanglat.lat, driver.fromlanglat.lng
+            );
+            console.log("distance - ", distance)
+            return { driver, distance };
+        } else {
+            return null;
+        }
+    });
+
+    const results = await Promise.all(distancePromises);
+    const validDrivers = results.filter(result => result !== null && result.distance != null)
+        .sort((a, b) => a.distance - b.distance);
+
+    return validDrivers.slice(0, 3); // Adjust based on how many drivers you want to return
 }
 
-// Function to match a single passenger with a list of drivers
-function matchPassengerToDrivers(passenger, drivers) {
-    const nearestDrivers = findNearestDrivers(passenger, drivers);
-    const matchedDrivers = nearestDrivers.filter(({ driver }) =>
-        driver.days_of_week.some(day => passenger.days_of_week.includes(day)) && // Check if days of week match
-        driver.travel_time === passenger.travel_time // Check if travel time matches
-    ).map(({ driver }) => driver.id);
-    return matchedDrivers;
+// Async function to match a single passenger with a list of drivers based on the consolidated logic
+async function matchPassengerToDrivers(passenger, drivers) {
+    const nearestDrivers = await findNearestDrivers(passenger, drivers);
+    console.log(nearestDrivers)
+    return nearestDrivers.map(({ driver }) => driver._id);
 }
-
-
-// Export functions
 
 export { matchPassengerToDrivers }

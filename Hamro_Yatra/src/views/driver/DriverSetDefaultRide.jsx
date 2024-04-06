@@ -94,7 +94,7 @@ export default function DriverSetDefaultRide() {
   const openModal = async () => {
     setModalOpen(true);
 
-    fetchLongLat()
+    await fetchLongLat()
 
     const resp = await axios.get(
       "https://route-init.gallimap.com/api/v1/routing",
@@ -209,7 +209,7 @@ export default function DriverSetDefaultRide() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    fetchLongLat()
+    await fetchLongLat()
     try {
       const response = await axios.post(
         `http://localhost:8080/driver/setdefaultride?email=${email}`,
