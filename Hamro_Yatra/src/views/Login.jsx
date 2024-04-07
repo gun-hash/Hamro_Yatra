@@ -21,7 +21,10 @@ const Login = () => {
 
   useEffect(() => {
     if (userRole) {
-      if (userRole === "driver") {
+      if (userRole === "driver" && firstLogin) {
+        navigate("/driver/register-vehicle");
+      }
+      else if (userRole === "driver") {
         navigate("/driver");
       } else if (userRole === "passenger") {
         navigate("/passenger");
@@ -46,7 +49,7 @@ const Login = () => {
         "http://localhost:8080/api/login",
         formData
       );
-      const { email, role, authtoken, ...rest } = response.data;
+      const { email, role, authtoken, firstLogin, ...rest } = response.data;
       console.log(response.data);
       // Set user role, token, and user name
       if (response.data.success) {

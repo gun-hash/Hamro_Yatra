@@ -12,7 +12,7 @@ import Page404 from "../views/Page404";
 import Option from "../views/Option";
 import VerifyEmail from "../views/VerifyEmail";
 import { PassengerProfile, PassengerRideHistory, PassengerSearch } from "../views/passenger";
-import { DriverMatch, DriverProfile, DriverRideHistory, DriverSetDefaultRide } from "../views/driver";
+import { DriverMatch, DriverProfile, DriverRideHistory, DriverSetDefaultRide, DriverVehicleRegistration } from "../views/driver";
 import { AdminProfile, AdminViewRides, AdminViewUsers } from "../views/admin";
 
 export default function Routing() {
@@ -39,6 +39,7 @@ export default function Routing() {
             <Route path="profile" element={<DriverProfile />} />
             <Route path="set-default" element={<DriverSetDefaultRide />} />
             <Route path="match" element={<DriverMatch />} />
+            <Route path="register-vehicle" element={<DriverVehicleRegistration />} />
           </Route>
           <Route path="/passenger" element={<PassengerLayout />}>
             <Route index element={<PassengerSearch />} />

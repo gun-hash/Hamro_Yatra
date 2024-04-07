@@ -102,6 +102,26 @@ export const loginUser = async (req, res) => {
         .json({ message: "Email not verified. Check your mail." });
     }
 
+    if (user.isFirstLogin && user.role === 'driver') {
+      await User.updateOne({ _id: user._id }, { $set: { firstLogin: false } });
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordMatch) {
+        return res.status(200).json({ error: "Wrong Password" });
+      }
+      if (user.isSuspended === true) {
+        return res.status(200).json({
+          error: "You are suspended !! Please contact Hamro Yatra Support",
+        });
+      }
+
+      const authtoken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+
+      res.json({ message: "First time login detected for driver", firstLogin: true, role: user.role, email: user.email, authtoken, success: true });
+    }
+
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
