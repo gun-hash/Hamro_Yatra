@@ -157,7 +157,7 @@ function PassengerRideHistory() {
                   <td>
                     {ride.status === "unaccepted" && (
                       <button onClick={() => handleDeleteRide(ride._id)}>
-                        Delete
+                        Cancel Ride
                       </button>
                     )}
                   </td>
