@@ -7,6 +7,7 @@ import "../../assets/styles/Driver.css";
 function DriverRideHistory() {
   const { email } = useStateContext();
   const [rideHistory, setRideHistory] = useState(null);
+  const [phone, setPhone] = useState(null)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,6 +32,21 @@ function DriverRideHistory() {
         )
         .then((res) => {
           window.location.reload()
+        });
+    } catch (error) {
+      console.error("Error deleting ride:", error);
+    }
+  };
+
+  const handlePhone = async (rideId) => {
+    try {
+      // Make a DELETE request to the backend to delete the ride
+      await axios
+        .get(
+          `http://localhost:8080/driver/getcontact?email=${email}&rideID=${rideId}`
+        )
+        .then((res) => {
+          setPhone(res.data.phone)
         });
     } catch (error) {
       console.error("Error deleting ride:", error);
@@ -75,14 +91,12 @@ function DriverRideHistory() {
                     {ride.status === "ongoing" && (
                       <button onClick={() => handleCompleteRide(ride._id)}>Complete Ride</button>
                     )}
-                  </td>                  <td>
-                    <div className="action-for-divers">
-                      <button className="call-btn-pass">
-                        <a href="tel:+977-9865630599" className="call-button">
-                          Call Passanger
+                    <div className="action-for-drivers">
+                      <button onClick={() => handlePhone(ride._id)} className="call-btn-pass">
+                        <a href={`tel:${phone}`} className="call-button">
+                          Call Passenger
                         </a>
                       </button>
-
                       <button className="view-location-pass">
                         View Passanger Location
                       </button>
