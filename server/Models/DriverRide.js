@@ -32,6 +32,7 @@ const DriverRideSchema = new mongoose.Schema({
   driverID: {
     type: String,
     required: false,
+    unique: true
   },
   date: {
     type: Date,

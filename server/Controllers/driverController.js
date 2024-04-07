@@ -19,7 +19,11 @@ const profileData = async (req, res) => {
 const matchData = async (req, res) => {
   const userEmail = req.query.email;
   try {
-    const rideAvailable = await Ride.find({ status: 'unaccepted' })
+    const currUser = await User.findOne({ email: userEmail })
+    const offeredRide = await DriverRide.find({ driverID: currUser._id.toString() });
+    const currUserRideId = offeredRide[0]._id.toString()
+    const allRides = await Ride.find({ status: 'unaccepted' })
+    const rideAvailable = allRides.filter(ride => ride.recommendedTo.includes(currUserRideId));
     res.json({ rideAvailable });
   } catch (error) {
     console.error("Error fetching user:", error.message);
@@ -34,7 +38,7 @@ const matchRide = async (req, res) => {
     const matchedDriver = await User.findOne({ email: userEmail })
 
     await Ride.updateOne({ _id: rideId }, { driverID: matchedDriver._id })
-    await Ride.updateOne({ _id: rideId }, { status: 'Ongoing' })
+    await Ride.updateOne({ _id: rideId }, { status: 'ongoing' })
 
     res.status(200).json({ message: "Ride Matched successfully" });
   } catch (error) {
@@ -53,6 +57,15 @@ const setDefaultRide = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    const defaultCreatedDocs = await DriverRide.find({ driverID: driverUser._id });
+    let isFound = false;
+    if (defaultCreatedDocs.length > 0) {
+      isFound = true;
+    }
+
+    if (isFound) {
+      return res.status(500).json({ error: "Default Ride Already Created" });
+    }
 
     const newDriverRide = new DriverRide({
       email,
@@ -87,4 +100,20 @@ const rideHistory = async (req, res) => {
   }
 };
 
-export { profileData, setDefaultRide, matchData, matchRide, rideHistory };
+const deleteDefaultRide = async (req, res) => {
+  const userEmail = req.query.email;
+  const currUser = await User.findOne({ email: userEmail })
+  const rideToBeDeleted = await DriverRide.findOne({ driverID: currUser._id })
+  try {
+    // Delete the ride by its ID
+    await DriverRide.findByIdAndDelete(rideToBeDeleted._id);
+    // Respond with a success status code
+    res.status(200).json({ message: "Ride deleted successfully" });
+  } catch (error) {
+    // Handle errors
+    console.error("Error deleting ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide };

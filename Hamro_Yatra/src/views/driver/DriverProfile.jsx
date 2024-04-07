@@ -25,6 +25,22 @@ function DriverProfile() {
       });
   }, [email]); // Make sure to include email as a dependency for useEffect
 
+  const handleDeleteDefaultRide = async () => {
+    try {
+      // Make a DELETE request to the backend to delete the ride
+      await axios
+        .get(
+          `http://localhost:8080/driver/deletedefaultride?email=${email}`
+        )
+        .then(() => {
+          // Filter out the deleted ride from the rideHistory
+          setDefaultRide(null);
+        });
+    } catch (error) {
+      console.error("Error deleting default ride:", error.message);
+    }
+  };
+
   return (
     <>
       <div className="Driver-profile-container">
@@ -71,6 +87,9 @@ function DriverProfile() {
                     </React.Fragment>
                   ))}
                 </p>
+                <button onClick={() => handleDeleteDefaultRide()}>
+                  Delete Default Ride
+                </button>
               </div>
             ) : (
               <p>Loading user data...</p>
