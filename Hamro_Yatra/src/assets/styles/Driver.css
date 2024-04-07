@@ -1,6 +1,7 @@
 .driver-main-container {
   background-color: #fff;
   width: 90vw;
+  height: auto;
   padding: 18px;
   border-radius: 12px;
 }
@@ -34,7 +35,6 @@
   border-radius: 11px;
   padding: 12px;
   width: 50%;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 /* Ride History */
 .history-main-conatiner {
@@ -58,4 +58,161 @@
   .user-data {
     width: 87%;
   }
+  .Driver-profile-container {
+    margin-top: 250px;
+  }
+  .driver-main-container {
+    margin-top: 50px;
+  }
+}
+
+/*  */
+.ride-available-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 0.8rem;
+}
+
+table thead th {
+  background-color: #525ad9;
+  color: #ffffff;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table tbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+  background-color: #ddd;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.accept-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.decline-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.no-rides-message {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+@media (max-width: 1024px) {
+  /* Adjustments for tablets and below */
+  .ride-available-container,
+  table,
+  table thead th,
+  table tbody td {
+    padding: 15px;
+    font-size: 0.9rem; /* Slightly larger font size for readability */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Adjustments for smaller tablets and large phones */
+  .ride-available-container {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  table,
+  table thead th,
+  table tbody td {
+    font-size: 0.8rem; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjustments for small devices */
+  .ride-available-container {
+    margin: 5px;
+    padding: 5px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto; /* Allows table to scroll horizontally on very small screens */
+  }
+
+  table thead,
+  table tbody,
+  table th,
+  table td,
+  table tr {
+    display: block;
+  }
+
+  table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px; /* Hide table headers visually */
+  }
+
+  table tr {
+    border: 1px solid #ccc;
+  }
+
+  table td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%; /* Make room for content */
+  }
+
+  table td::before {
+    /* Use pseudo-elements to label the data */
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+/*  */
+.ride-available-main-container {
+  width: 90vw;
+  background-color: #fff;
+  padding: 22px;
+}
+.btn-container {
+  padding: 12px;
+  height: 30px;
+  display: flex;
 }
