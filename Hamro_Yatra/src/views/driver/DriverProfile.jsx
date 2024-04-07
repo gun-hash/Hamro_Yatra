@@ -9,6 +9,7 @@ import "../../assets/styles/Driver.css";
 function DriverProfile() {
   const [userData, setUserData] = useState(null);
   const [defaultRide, setDefaultRide] = useState(null);
+  const [vehicleInfo, setVehicleInfo] = useState(null);
   const { email } = useStateContext();
 
   useEffect(() => {
@@ -19,6 +20,7 @@ function DriverProfile() {
         // Set the userData state with the response data
         setUserData(response.data.currentUser); // Changed object1 to currentUser
         setDefaultRide(response.data.driverDefaultRide);
+        setVehicleInfo(response.data.vehicleInformation)
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -93,6 +95,19 @@ function DriverProfile() {
               </div>
             ) : (
               <p>Loading user data...</p>
+            )}
+          </div>
+          <div className="vehicle-info-data">
+            {vehicleInfo ? (
+              <div>
+                <h2>Vehicle Info</h2>
+                <p>Number: {vehicleInfo.number}</p>
+                <p>Model: {vehicleInfo.model}</p>
+                <p>type: {vehicleInfo.type}</p>
+                <p>Color: {vehicleInfo.color}</p>
+              </div>
+            ) : (
+              <p>Loading vehicle information...</p>
             )}
           </div>
         </div>

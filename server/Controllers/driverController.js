@@ -10,7 +10,8 @@ const profileData = async (req, res) => {
   try {
     const currentUser = await User.findOne({ email: userEmail });
     const driverDefaultRide = await DriverRide.findOne({ driverID: currentUser._id })
-    res.json({ currentUser, driverDefaultRide });
+    const vehicleInformation = await Vehicle.findOne({ driverID: currentUser._id })
+    res.json({ currentUser, driverDefaultRide, vehicleInformation });
   } catch (error) {
     console.error("Error fetching user:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
