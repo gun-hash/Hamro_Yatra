@@ -48,6 +48,26 @@ const matchRide = async (req, res) => {
   }
 };
 
+const deleteMatch = async (req, res) => {
+  const userEmail = req.query.email;
+  const rideId = req.query.rideID;
+  try {
+    const matchedDriver = await User.findOne({ email: userEmail })
+    const thisRide = await Ride.find({ _id: rideId })
+    if (thisRide.recommendedTo.includes(matchedDriver._id.toString())) {
+      const index = thisRide.recommendedTo.indexOf(matchedDriver._id.toString())
+      if (index > -1) {
+        array.splice(index, 1);
+      }
+    }
+
+    res.status(200).json({ message: "Ride Match Deleted successfully" });
+  } catch (error) {
+    console.error("Error Matching Ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const setDefaultRide = async (req, res) => {
   const { from, to, date, seats, time, daysOfWeek, fromlanglat, tolanglat } = req.body;
   const { email } = req.query;
@@ -117,4 +137,4 @@ const deleteDefaultRide = async (req, res) => {
   }
 };
 
-export { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide };
+export { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch };
