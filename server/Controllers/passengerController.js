@@ -3,6 +3,7 @@ import Ride from "../Models/Ride.js";
 import dotenv from "dotenv";
 import DriverRide from "../Models/DriverRide.js";
 import { matchPassengerToDrivers } from "../Scripts/knn.js";
+import { fareCalc } from "../Scripts/fare.js";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ const search = async (req, res) => {
 
     const freeDrivers = await DriverRide.find({ status: 'free' });
     const matchedDrivers = await matchPassengerToDrivers(currRide, freeDrivers);
+    const calculatedFare = fareCalc(currRide)
     const newRide = new Ride({
       email,
       seats,
@@ -39,7 +41,7 @@ const search = async (req, res) => {
       date,
       fromlanglat,
       tolanglat,
-      fare: 1200,
+      fare: calculatedFare,
       passengerID: rideReqUser._id,
       time,
       status: 'unaccepted',
