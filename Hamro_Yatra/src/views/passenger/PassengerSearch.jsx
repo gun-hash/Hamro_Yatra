@@ -39,29 +39,20 @@ export default function PassengerSearch() {
   const [desLatLng, setDesLatLng] = useState({ lat: "", lng: "" });
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchRoute = async () => {
-      if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
-        const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
-
-        try {
-          const response = await axios.get(osrmRouteUrl);
-          const coords = response.data.routes[0].geometry.coordinates;
-          const latLngs = coords.map((coord) => [coord[1], coord[0]]);
-          setRoute(latLngs); // Set the route state
-        } catch (error) {
-          console.error("Failed to fetch route", error);
-        }
-      }
-    };
-
-    if (modalOpen) {
-      fetchRoute();
-    }
-  }, [modalOpen, latLng, desLatLng]);
-
   const openModal = async () => {
     setModalOpen(true);
+    if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
+      const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
+
+      try {
+        const response = await axios.get(osrmRouteUrl);
+        const coords = response.data.routes[0].geometry.coordinates;
+        const latLngs = coords.map((coord) => [coord[1], coord[0]]);
+        setRoute(latLngs); // Set the route state
+      } catch (error) {
+        console.error("Failed to fetch route", error);
+      }
+    }
     const response = await axios.get(
       "https://route-init.gallimap.com/api/v1/search/currentLocation",
       {
@@ -93,19 +84,23 @@ export default function PassengerSearch() {
     setLatLng({ lat: fromLat, lng: fromLng });
     setDesLatLng({ lat: toLat, lng: toLng });
 
-
-    if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
-      const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
-
-      try {
-        const response = await axios.get(osrmRouteUrl);
-        const coords = response.data.routes[0].geometry.coordinates;
-        const latLngs = coords.map((coord) => [coord[1], coord[0]]);
-        setRoute(latLngs); // Set the route state
-      } catch (error) {
-        console.error("Failed to fetch route", error);
+    const resp = await axios.get(
+      "https://route-init.gallimap.com/api/v1/routing",
+      {
+        params: {
+          mode: "driving",
+          srcLat: fromLat,
+          srcLng: fromLng,
+          dstLat: toLat,
+          dstLng: toLng,
+          accessToken: "2d858743-50e4-43a9-9b0a-e4b6a5933b5d",
+        },
       }
-    }
+    );
+    console.log(resp);
+    // // console.log(response.data.data.features[0].geometry.coordinates)
+    // console.log(res.data.data.features[0].geometry.coordinates)
+    // console.log(response);
   };
 
   const closeModal = () => {
@@ -266,7 +261,7 @@ export default function PassengerSearch() {
             </div>
 
             <div className="ModalContainer">
-              <button onClick={openModal} className="view-btn">
+              <button type="button" onClick={openModal} className="view-btn">
                 View Location on Map
               </button>
               {modalOpen && (

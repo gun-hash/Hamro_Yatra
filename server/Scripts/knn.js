@@ -14,39 +14,31 @@ function isTimeWithinRange(driverTime, passengerTime, rangeMinutes = 30) {
 }
 
 // Function to calculate the distance between two coordinates asynchronously
-async function calcDistance(srcLat, srcLng, dstLat, dstLng) {
+function calcDistance(srcLat, srcLng, dstLat, dstLng) {
     // Convert each parameter to a string and truncate to 16 characters if necessary
-    srcLat = String(srcLat).slice(0, 16);
-    srcLng = String(srcLng).slice(0, 16);
-    dstLat = String(dstLat).slice(0, 16);
-    dstLng = String(dstLng).slice(0, 16);
-
-    // Now convert truncated strings back to floating point numbers
     srcLat = parseFloat(srcLat);
     srcLng = parseFloat(srcLng);
     dstLat = parseFloat(dstLat);
     dstLng = parseFloat(dstLng);
+    // Earth radius in meters
+    const R = 6371000;
 
-    console.log(srcLat, srcLng, dstLat, dstLng)
-    // Construct the URL for the OSRM routing API
-    const url = `https://router.project-osrm.org/route/v1/driving/${srcLng},${srcLat};${dstLng},${dstLat}?overview=false`;
+    // Convert latitude and longitude from degrees to radians
+    const lat1 = srcLat * Math.PI / 180;
+    const lat2 = dstLat * Math.PI / 180;
+    const deltaLat = (dstLat - srcLat) * Math.PI / 180;
+    const deltaLng = (dstLng - srcLng) * Math.PI / 180;
 
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
+    // Haversine formula
+    const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) *
+        Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in meters
 
-        if (response.ok) {
-            // The distance is usually part of the first route object in the routes array
-            const distance = data.routes[0].distance; // Distance in meters
-            return distance;
-        } else {
-            throw new Error('Error from OSRM API: ' + (data.message || 'Unknown error'));
-        }
-    } catch (error) {
-        console.error('Error fetching distance:', error);
-        return null;
-    }
+    return distance;
 }
+
 
 // Asynchronous function to find nearest drivers that match all criteria
 async function findNearestDrivers(passenger, drivers) {
@@ -56,31 +48,33 @@ async function findNearestDrivers(passenger, drivers) {
         const timeMatch = isTimeWithinRange(driver.time, passenger.time);
         const seatMatch = driver.seats >= passenger.seats;
 
+
+
         if (dayMatch && dateMatch && timeMatch && seatMatch) {
-            console.log(passenger.fromlanglat.lat, passenger.fromlanglat.lng,
-                driver.fromlanglat.lat, driver.fromlanglat.lng)
-            const distance = await calcDistance(
+
+            const fromDistance = await calcDistance(
                 passenger.fromlanglat.lat, passenger.fromlanglat.lng,
                 driver.fromlanglat.lat, driver.fromlanglat.lng
             );
-            console.log("distance - ", distance)
-            return { driver, distance };
+            const toDistance = await calcDistance(
+                passenger.tolanglat.lat, passenger.tolanglat.lng,
+                driver.tolanglat.lat, driver.tolanglat.lng
+            );
+            return { driver, fromDistance, toDistance };
         } else {
             return null;
         }
     });
 
     const results = await Promise.all(distancePromises);
-    const validDrivers = results.filter(result => result !== null && result.distance != null)
-        .sort((a, b) => a.distance - b.distance);
-
+    const validDrivers = results.filter(result => result !== null && result.fromDistance != null && result.toDistance != null)
+        .sort((a, b) => (a.fromDistance + a.toDistance) - (b.fromDistance + b.toDistance));
     return validDrivers.slice(0, 3); // Adjust based on how many drivers you want to return
 }
 
 // Async function to match a single passenger with a list of drivers based on the consolidated logic
 async function matchPassengerToDrivers(passenger, drivers) {
     const nearestDrivers = await findNearestDrivers(passenger, drivers);
-    console.log(nearestDrivers)
     return nearestDrivers.map(({ driver }) => driver._id);
 }
 

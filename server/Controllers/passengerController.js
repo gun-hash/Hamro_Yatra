@@ -27,6 +27,10 @@ const search = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    const currRide = { seats, date, fromlanglat, tolanglat, passengerID: rideReqUser._id, time, daysOfWeek }
+
+    const freeDrivers = await DriverRide.find({ status: 'free' });
+    const matchedDrivers = await matchPassengerToDrivers(currRide, freeDrivers);
     const newRide = new Ride({
       email,
       seats,
@@ -40,16 +44,10 @@ const search = async (req, res) => {
       time,
       status: 'unaccepted',
       daysOfWeek,
+      recommendedTo: matchedDrivers,
     });
 
-    // await newRide.save();
-
-    const currRide = { seats, date, fromlanglat, tolanglat, passengerID: rideReqUser._id, time, daysOfWeek }
-
-    const freeDrivers = await DriverRide.find({ status: 'free' });
-    // console.log("free rider -", freeDrivers)
-    const matchedDrivers = await matchPassengerToDrivers(currRide, freeDrivers);
-    // console.log("matched rider -", matchedDrivers)
+    await newRide.save();
 
     res.status(200).json({ message: "Ride Saved", matchedDrivers });
   } catch (error) {

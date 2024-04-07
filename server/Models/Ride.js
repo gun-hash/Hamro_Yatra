@@ -61,6 +61,10 @@ const RideSchema = new mongoose.Schema({
     type: [String], // Array of strings
     required: true
   },
+  recommendedTo: {
+    type: [String], // Array of strings
+    required: false
+  },
 });
 
 const Ride = mongoose.model("Ride", RideSchema);
