@@ -30,7 +30,7 @@ function DriverProfile() {
       // Make a DELETE request to the backend to delete the ride
       await axios
         .get(
-          `http://localhost:8080/passenger/deletedefaultride?email=${email}`
+          `http://localhost:8080/driver/deletedefaultride?email=${email}`
         )
         .then(() => {
           // Filter out the deleted ride from the rideHistory

@@ -102,11 +102,8 @@ const rideHistory = async (req, res) => {
 
 const deleteDefaultRide = async (req, res) => {
   const userEmail = req.query.email;
-  console.log(userEmail)
   const currUser = await User.findOne({ email: userEmail })
-  console.log(currUser)
   const rideToBeDeleted = await DriverRide.findOne({ driverID: currUser._id })
-  console.log(rideToBeDeleted)
   try {
     // Delete the ride by its ID
     await DriverRide.findByIdAndDelete(rideToBeDeleted._id);
