@@ -24,6 +24,21 @@ function DriverRideHistory() {
       });
   }, [email]);
 
+  const handleCompleteRide = async (rideId) => {
+    try {
+      // Make a DELETE request to the backend to delete the ride
+      await axios
+        .get(
+          `http://localhost:8080/driver/completeride?email=${email}&rideID=${rideId}`
+        )
+        .then((res) => {
+          window.location.reload()
+        });
+    } catch (error) {
+      console.error("Error deleting ride:", error);
+    }
+  };
+
   return (
     <div className="history-main-conatiner">
       {loading ? null : <h2>Ride Details</h2>}
@@ -43,6 +58,11 @@ function DriverRideHistory() {
               <p>Time: {ride.time}</p>
               <p>Seats: {ride.seats}</p>
               <p>Days of Week: {ride.daysOfWeek.join(", ")}</p>
+              {ride.status === "ongoing" && (
+                <button onClick={() => handleCompleteRide(ride._id)}>
+                  End Ride
+                </button>
+              )}
             </div>
           ))
         )}

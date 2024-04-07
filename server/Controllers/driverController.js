@@ -48,6 +48,22 @@ const matchRide = async (req, res) => {
   }
 };
 
+const completeRide = async (req, res) => {
+  const userEmail = req.query.email;
+  const rideId = req.query.rideID;
+  try {
+    const matchedDriver = await User.findOne({ email: userEmail })
+
+    await Ride.updateOne({ _id: rideId }, { status: 'completed' })
+    await DriverRide.updateOne({ driverID: matchedDriver._id.toString() }, { status: 'free' })
+
+    res.status(200).json({ message: "Ride completed successfully" });
+  } catch (error) {
+    console.error("Error Matching Ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteMatch = async (req, res) => {
   const userEmail = req.query.email;
   const rideId = req.query.rideID;
@@ -137,4 +153,4 @@ const deleteDefaultRide = async (req, res) => {
   }
 };
 
-export { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch };
+export { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide };
