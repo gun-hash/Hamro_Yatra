@@ -40,6 +40,21 @@ function DriverMatch() {
         }
     };
 
+    const handleDeleteMatchRide = async (rideId) => {
+        try {
+            // Make a DELETE request to the backend to delete the ride
+            await axios.get(`http://localhost:8080/driver/deletematch?email=${email}&rideID=${rideId}`)
+                .then((res) => {
+                    // Filter out the deleted ride from the rideHistory
+                    setRideAvailable(prevRides => prevRides.filter(ride => ride._id !== rideId));
+                })
+
+        } catch (error) {
+            console.error('Error matching ride:', error);
+        }
+    };
+
+
     return (
         <>
             {loading ? null : <h2>Ride Details</h2>}
@@ -61,6 +76,7 @@ function DriverMatch() {
                                 <p>Seats: {ride.seats}</p>
                                 <p>Days of Week: {ride.daysOfWeek.join(', ')}</p>
                                 <button onClick={() => handleMatchRide(ride._id)}>Match</button>
+                                <button onClick={() => handleDeleteMatchRide(ride._id)}>Delete</button>
                             </div>
                         ))
                     )}
