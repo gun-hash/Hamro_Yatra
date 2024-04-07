@@ -57,6 +57,7 @@ function DriverRideHistory() {
                 <th>Time</th>
                 <th>Seats</th>
                 <th>Days of Week</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -70,7 +71,11 @@ function DriverRideHistory() {
                   <td>{ride.time}</td>
                   <td>{ride.seats}</td>
                   <td>{ride.daysOfWeek.join(", ")}</td>
-                </tr>
+                  <td>
+                    {ride.status === "ongoing" && (
+                      <button onClick={() => handleCompleteRide(ride._id)}>Complete Ride</button>
+                    )}
+                  </td>                </tr>
               ))}
             </tbody>
           </table>
