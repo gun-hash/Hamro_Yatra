@@ -34,7 +34,6 @@
   border-radius: 11px;
   padding: 12px;
   width: 50%;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 /* Ride History */
 .history-main-conatiner {
@@ -58,4 +57,90 @@
   .user-data {
     width: 87%;
   }
+}
+.ride-available-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table thead th {
+  background-color: #525ad9;
+  color: #ffffff;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table tbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+  background-color: #ddd;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.accept-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.decline-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.no-rides-message {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+@media (max-width: 768px) {
+  table,
+  table thead th,
+  table tbody td {
+    font-size: 14px;
+  }
+
+  .ride-available-container {
+    padding: 10px;
+  }
+}
+
+.ride-available-main-container {
+  width: 90vw;
+  background-color: #fff;
+  padding: 22px;
+}
+.btn-container {
+  padding: 12px;
+  height: 30px;
+  display: flex;
 }

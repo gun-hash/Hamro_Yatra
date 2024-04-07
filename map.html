@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distance Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h2>Distance and Duration Between Driver and Passenger</h2>
+    <button onclick="calculateDistance()">Calculate Distance</button>
+    <div id="result"></div>
+
+    <script>
+        function calculateDistance() {
+            // Dummy data for driver and passenger locations
+            var passengerLocation = { lat: 40.712776, lng: -74.005974 }; // New York
+            var driverLocation = { lat: 38.907192, lng: -77.036871 }; // Washington, D.C.
+
+            // OSRM API URL, swapping in the longitude and latitude from our dummy data
+            var osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${passengerLocation.lng},${passengerLocation.lat};${driverLocation.lng},${driverLocation.lat}?overview=false`;
+
+            axios.get(osrmRouteUrl)
+                .then(function (response) {
+                    // Handle success
+                    var distance = response.data.routes[0].distance; // Distance in meters
+                    var duration = response.data.routes[0].duration; // Duration in seconds
+                    document.getElementById('result').innerHTML = `Distance: ${distance} meters <br> Duration: ${duration} seconds`;
+                })
+                .catch(function (error) {
+                    // Handle error
+                    console.log(error);
+                    document.getElementById('result').innerHTML = "Error calculating distance.";
+                });
+        }
+    </script>
+</body>
+
+</html>

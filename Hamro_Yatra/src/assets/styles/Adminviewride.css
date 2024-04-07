@@ -5,15 +5,16 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   max-width: 1200px;
   margin: 20px auto;
+  margin-top: 122px;
 }
 
-h2 {
+.user-data-main-container h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
 }
 
-h3 {
+.user-data-main-container h3 {
   margin-top: 30px;
   color: #555;
 }
@@ -122,9 +123,10 @@ h3 {
   height: 30px;
   width: 70px;
   padding: 6px;
-  background-color: #f0ad4e;
+  background-color: #fea932;
   color: #fff;
   border-radius: 5px;
+  font-size: 0.7rem;
 }
 .btn-del {
   border: none;
@@ -134,4 +136,83 @@ h3 {
   background-color: red;
   color: #fff;
   border-radius: 5px;
+  font-size: 0.7rem;
+}
+.ride-history-main-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  margin-top: 250px;
+}
+
+.ride-history-main-container h2 {
+  text-align: center;
+  color: #333;
+}
+
+.ride-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+}
+
+.ride-history-table thead {
+  background-color: #525ad9;
+  color: #ffffff;
+}
+
+.ride-history-table th,
+.ride-history-table td {
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.ride-history-table tbody tr:nth-child(even) {
+  background-color: #eee;
+}
+
+.ride-history-table tbody tr:hover {
+  background-color: #ccc;
+}
+
+.ride-history-table th {
+  position: sticky;
+  top: 0;
+  background-color: #525ad9;
+  z-index: 2;
+}
+
+h3 {
+  margin-top: 20px;
+  color: #555;
+}
+
+.loading-text {
+  text-align: center;
+  margin: 20px 0;
+  color: #666;
+}
+
+.no-rides-message {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+@media (max-width: 768px) {
+  .ride-history-table,
+  .ride-history-table th,
+  .ride-history-table td {
+    font-size: 14px;
+  }
+
+  .ride-history-main-container {
+    padding: 10px;
+  }
 }

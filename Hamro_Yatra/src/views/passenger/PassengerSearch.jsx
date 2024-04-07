@@ -93,7 +93,6 @@ export default function PassengerSearch() {
     setLatLng({ lat: fromLat, lng: fromLng });
     setDesLatLng({ lat: toLat, lng: toLng });
 
-
     if (latLng.lat && latLng.lng && desLatLng.lat && desLatLng.lng) {
       const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${latLng.lng},${latLng.lat};${desLatLng.lng},${desLatLng.lat}?overview=full&geometries=geojson`;
 
@@ -266,7 +265,7 @@ export default function PassengerSearch() {
             </div>
 
             <div className="ModalContainer">
-              <button onClick={openModal} className="view-btn">
+              <button type="button" onClick={openModal} className="view-btn">
                 View Location on Map
               </button>
               {modalOpen && (
