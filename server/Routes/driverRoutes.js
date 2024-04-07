@@ -1,6 +1,6 @@
 import express from "express";
 import { driverRoleCheckMiddleware } from "../Middleware/driverRoleCheckMiddleware.js";
-import { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide, registerVehicle, getContact } from "../Controllers/driverController.js";
+import { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide, registerVehicle, getContact, } from "../Controllers/driverController.js";
 const router = express.Router();
 
 router.post("/setdefaultride", driverRoleCheckMiddleware, setDefaultRide);

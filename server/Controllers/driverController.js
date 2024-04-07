@@ -207,4 +207,4 @@ const getContact = async (req, res) => {
   }
 };
 
-export { profileData, registerVehicle, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide, getContact };
+export { profileData, registerVehicle, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide, getContact, };

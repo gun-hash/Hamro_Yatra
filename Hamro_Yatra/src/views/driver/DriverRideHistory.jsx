@@ -9,6 +9,31 @@ function DriverRideHistory() {
   const [rideHistory, setRideHistory] = useState(null);
   const [phone, setPhone] = useState(null)
   const [loading, setLoading] = useState(true);
+  const [location, setLocation] = useState({
+    latitude: null,
+    longitude: null,
+  });
+
+  useEffect(() => {
+    // Check if the Geolocation API is supported
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Set the latitude and longitude upon successful retrieval
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          // Handle errors
+          window.alert(error.message)
+        }
+      );
+    } else {
+      window.alert("Geolocation is not supported by this browser.")
+    }
+  }, []);
 
   useEffect(() => {
     axios
@@ -40,7 +65,6 @@ function DriverRideHistory() {
 
   const handlePhone = async (rideId) => {
     try {
-      // Make a DELETE request to the backend to delete the ride
       await axios
         .get(
           `http://localhost:8080/driver/getcontact?email=${email}&rideID=${rideId}`
@@ -51,6 +75,10 @@ function DriverRideHistory() {
     } catch (error) {
       console.error("Error deleting ride:", error);
     }
+  };
+
+  const handleViewLocation = async (passsengerLocation, driverLocation) => {
+
   };
 
   return (
@@ -97,8 +125,8 @@ function DriverRideHistory() {
                           Call Passenger
                         </a>
                       </button>
-                      <button className="view-location-pass">
-                        View Passanger Location
+                      <button onClick={() => handleViewLocation(ride.langlat, location)} className="view-location-pass">
+                        View Passenger Location
                       </button>
                     </div>
                   </td>
