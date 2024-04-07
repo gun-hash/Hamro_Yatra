@@ -1,6 +1,7 @@
 import User from "../Models/User.js";
 import DriverRide from "../Models/DriverRide.js";
 import Ride from "../Models/Ride.js";
+import Vehicle from "../Models/Vehicle.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -125,6 +126,42 @@ const setDefaultRide = async (req, res) => {
   }
 };
 
+const registerVehicle = async (req, res) => {
+  const { number, color, model, type } = req.body;
+  const { email } = req.query;
+
+  try {
+    const driverUser = await User.findOne({ email: email });
+    if (!driverUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const defaultCreatedDocs = await Vehicle.find({ driverID: driverUser._id });
+    let isFound = false;
+    if (defaultCreatedDocs.length > 0) {
+      isFound = true;
+    }
+
+    if (isFound) {
+      return res.status(500).json({ error: "Vehicle Already Registered." });
+    }
+
+    const newVehicle = new Vehicle({
+      number,
+      color,
+      model,
+      type,
+      driverID: driverUser._id,
+    });
+
+    await newVehicle.save()
+
+    res.status(200).json({ message: "Vehicle Registered" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const rideHistory = async (req, res) => {
   const userEmail = req.query.email;
   try {
@@ -153,4 +190,4 @@ const deleteDefaultRide = async (req, res) => {
   }
 };
 
-export { profileData, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide };
+export { profileData, registerVehicle, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide };

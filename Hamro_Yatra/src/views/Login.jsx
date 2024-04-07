@@ -17,14 +17,13 @@ const Login = () => {
     password: "",
   });
 
+  const [firstLogin, setFirstLogin] = useState(null)
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (userRole) {
-      if (userRole === "driver" && firstLogin) {
-        navigate("/driver/register-vehicle");
-      }
-      else if (userRole === "driver") {
+      if (userRole === "driver") {
         navigate("/driver");
       } else if (userRole === "passenger") {
         navigate("/passenger");
@@ -56,6 +55,7 @@ const Login = () => {
         settingUserRole(role);
         settingToken(authtoken);
         settingEmail(email);
+        setFirstLogin(firstLogin)
       } else {
         toast.warn(response.data.error);
       }

@@ -14,6 +14,9 @@ const DriverNav = () => {
             <Link to="/driver/set-default">
                 <FontAwesomeIcon icon={faSearch} /> Set Default Ride
             </Link>
+            <Link to="/driver/register-vehicle">
+                <FontAwesomeIcon icon={faSearch} /> Register Vehicle
+            </Link>
             <Link to="/driver/profile">
                 <FontAwesomeIcon icon={faUser} /> Profile
             </Link>
