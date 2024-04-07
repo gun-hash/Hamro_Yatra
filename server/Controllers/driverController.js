@@ -38,7 +38,7 @@ const matchRide = async (req, res) => {
     const matchedDriver = await User.findOne({ email: userEmail })
 
     await Ride.updateOne({ _id: rideId }, { driverID: matchedDriver._id })
-    await Ride.updateOne({ _id: rideId }, { status: 'Ongoing' })
+    await Ride.updateOne({ _id: rideId }, { status: 'ongoing' })
 
     res.status(200).json({ message: "Ride Matched successfully" });
   } catch (error) {
