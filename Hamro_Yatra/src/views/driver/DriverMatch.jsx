@@ -33,6 +33,8 @@ function DriverMatch() {
                     setRideAvailable(prevRides => prevRides.filter(ride => ride._id !== rideId));
                 })
 
+            window.location.href = '/driver';
+
         } catch (error) {
             console.error('Error matching ride:', error);
         }
