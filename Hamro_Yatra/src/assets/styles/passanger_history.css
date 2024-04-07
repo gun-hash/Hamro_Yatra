@@ -1,6 +1,7 @@
 .ride-history-container {
   padding: 20px; /* Increased padding for better spacing inside the card */
   width: 30%;
+  height: auto;
   margin: 20px auto;
   /* Lighter border color for a subtle effect */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Shadow for depth */

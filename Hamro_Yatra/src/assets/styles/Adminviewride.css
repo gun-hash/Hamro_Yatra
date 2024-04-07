@@ -6,6 +6,7 @@
   max-width: 1200px;
   margin: 20px auto;
   margin-top: 122px;
+  height: auto;
 }
 
 .user-data-main-container h2 {
@@ -66,6 +67,11 @@
   color: #555;
   font-size: 16px;
   margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .user-data-main-container {
+    margin-top: 1450px;
+  }
 }
 
 /* Styling for the AdminNav component if it has specific class names */
@@ -140,13 +146,14 @@
 }
 .ride-history-main-container {
   max-width: 1200px;
+  height: auto;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   font-family: Arial, sans-serif;
-  margin-top: 250px;
+  margin-top: 350px;
 }
 
 .ride-history-main-container h2 {
@@ -178,7 +185,8 @@
 }
 
 .ride-history-table tbody tr:hover {
-  background-color: #ccc;
+  background-color: #ffffff;
+  cursor: pointer;
 }
 
 .ride-history-table th {
@@ -211,8 +219,12 @@ h3 {
   .ride-history-table td {
     font-size: 14px;
   }
-
+  /* .ride-history-table tbody tr:hover {
+    background-color: #525ad9;
+    color: #fff;
+  } */
   .ride-history-main-container {
     padding: 10px;
+    margin-top: 550px;
   }
 }

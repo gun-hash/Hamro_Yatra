@@ -101,7 +101,7 @@ function DriverMatch() {
         .get(
           `http://localhost:8080/driver/matchride?email=${email}&rideID=${rideId}`
         )
-        .then((res) => {
+        .then(() => {
           // Filter out the deleted ride from the rideHistory
           setRideAvailable((prevRides) =>
             prevRides.filter((ride) => ride._id !== rideId)
@@ -151,18 +151,18 @@ function DriverMatch() {
                   <td>
                     <div className="btn-container">
                       <button
-                        onClick={() => handleRideAction(ride._id, "accept")}
+                        onClick={() => handleMatchRide(ride._id)}
                         className="accept-button"
                       >
                         Accept
                       </button>
                       ||
-                      <button
+                      {/* <button
                         onClick={() => handleRideAction(ride._id, "decline")}
                         className="decline-button"
                       >
                         Decline
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>
