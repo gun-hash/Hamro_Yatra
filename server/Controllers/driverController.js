@@ -39,6 +39,7 @@ const matchRide = async (req, res) => {
 
     await Ride.updateOne({ _id: rideId }, { driverID: matchedDriver._id })
     await Ride.updateOne({ _id: rideId }, { status: 'ongoing' })
+    await DriverRide.updateOne({ driverID: matchedDriver._id.toString() }, { status: 'busy' })
 
     res.status(200).json({ message: "Ride Matched successfully" });
   } catch (error) {

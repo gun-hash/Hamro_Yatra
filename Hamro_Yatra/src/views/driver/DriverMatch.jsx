@@ -94,18 +94,23 @@ function DriverMatch() {
       });
   }, [email]);
 
-  const handleRideAction = async (rideId, action) => {
+  const handleMatchRide = async (rideId) => {
     try {
-      // Assuming your backend can handle 'accept' or 'decline' actions
-      const url = `http://localhost:8080/driver/${action}ride?email=${email}&rideID=${rideId}`;
-      await axios.post(url).then(() => {
-        // After accepting or declining, filter out the ride from the list
-        setRideAvailable((prevRides) =>
-          prevRides.filter((ride) => ride._id !== rideId)
-        );
-      });
+      // Make a DELETE request to the backend to delete the ride
+      await axios
+        .get(
+          `http://localhost:8080/driver/matchride?email=${email}&rideID=${rideId}`
+        )
+        .then((res) => {
+          // Filter out the deleted ride from the rideHistory
+          setRideAvailable((prevRides) =>
+            prevRides.filter((ride) => ride._id !== rideId)
+          );
+        });
+
+      window.location.href = "/driver";
     } catch (error) {
-      console.error(`Error ${action}ing ride:`, error);
+      console.error("Error matching ride:", error);
     }
   };
 
