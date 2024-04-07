@@ -57,7 +57,7 @@ function DriverRideHistory() {
                 <th>Time</th>
                 <th>Seats</th>
                 <th>Days of Week</th>
-                <th>Actions</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -75,7 +75,20 @@ function DriverRideHistory() {
                     {ride.status === "ongoing" && (
                       <button onClick={() => handleCompleteRide(ride._id)}>Complete Ride</button>
                     )}
-                  </td>                </tr>
+                  </td>                  <td>
+                    <div className="action-for-divers">
+                      <button className="call-btn-pass">
+                        <a href="tel:+977-9865630599" className="call-button">
+                          Call Passanger
+                        </a>
+                      </button>
+
+                      <button className="view-location-pass">
+                        View Passanger Location
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>

@@ -216,3 +216,18 @@ button:hover {
   height: 30px;
   display: flex;
 }
+/*  */
+.action-for-divers {
+  display: flex;
+}
+.call-btn-pass {
+  background-color: #525ad9;
+}
+.call-btn-pass a {
+  text-decoration: none;
+  color: #fff;
+}
+.view-location-pass {
+  background-color: #b8b82f;
+  color: #fff;
+}
