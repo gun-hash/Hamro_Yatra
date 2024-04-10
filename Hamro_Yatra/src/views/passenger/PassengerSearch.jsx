@@ -14,8 +14,6 @@ import {
   Polyline,
 } from "react-leaflet";
 
-import "leaflet/dist/leaflet.css";
-
 export default function PassengerSearch() {
   const { email } = useStateContext();
   const [route, setRoute] = useState([]);

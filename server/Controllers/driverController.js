@@ -207,4 +207,19 @@ const getContact = async (req, res) => {
   }
 };
 
-export { profileData, registerVehicle, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide, getContact, };
+const getPassengerLocation = async (req, res) => {
+  const userEmail = req.query.email;
+  const rideID = req.query.rideID;
+  try {
+    const currRide = await Ride.findOne({ _id: rideID })
+    const passengerLocation = currRide.fromlanglat
+    // Respond with a success status code
+    res.status(200).json({ message: "Ride deleted successfully", passengerLocation });
+  } catch (error) {
+    // Handle errors
+    console.error("Error deleting ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export { profileData, registerVehicle, setDefaultRide, matchData, matchRide, rideHistory, deleteDefaultRide, deleteMatch, completeRide, getContact, getPassengerLocation };

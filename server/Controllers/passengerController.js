@@ -1,5 +1,6 @@
 import User from "../Models/User.js";
 import Ride from "../Models/Ride.js";
+import Vehicle from "../Models/Vehicle.js";
 import dotenv from "dotenv";
 import DriverRide from "../Models/DriverRide.js";
 import { matchPassengerToDrivers } from "../Scripts/knn.js";
