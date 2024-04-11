@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import DriverRide from "../Models/DriverRide.js";
 import { matchPassengerToDrivers } from "../Scripts/knn.js";
 import { fareCalc } from "../Scripts/fare.js";
-import { spawn } from 'child_process';
 
 dotenv.config();
 
