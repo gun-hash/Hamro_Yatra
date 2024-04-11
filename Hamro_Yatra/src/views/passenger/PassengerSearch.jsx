@@ -216,8 +216,7 @@ export default function PassengerSearch() {
         }
       );
       if (response.status === 202) {
-        window.alert("Ride request received and being processed")
-        window.location.replace("/passenger/ride-history");
+        window.location.replace("/passenger/ride-history"); // Redirect to rides history page
       } else {
         console.error("Error saving ride");
         // Handle other status codes if needed
