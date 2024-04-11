@@ -4,18 +4,21 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 import { useStateContext } from "../../context/ContextProvider";
 import { useEffect, useState } from "react";
 import "../../assets/styles/passanger_history.css";
+import 'reactjs-popup/dist/index.css';
 
 function PassengerRideHistory() {
   const { email } = useStateContext();
   const [rideHistory, setRideHistory] = useState(null);
-  const [vehicleInfo, setVehicleInfo] = useState(null);
+  const [phone, setPhone] = useState(null);
+  const [driverName, setDriverName] = useState(null);
+  const [vehicleNum, setVehicleNum] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
     axios
       .get(`http://localhost:8080/passenger/history?email=${email}`)
       .then((response) => {
         setRideHistory(response.data.rideHistory);
-        setVehicleInfo(response.data.vehicleInfo)
         setLoading(false);
       })
       .catch((error) => {
@@ -34,6 +37,35 @@ function PassengerRideHistory() {
           setRideHistory((prevRides) =>
             prevRides.filter((ride) => ride._id !== rideId)
           );
+        });
+    } catch (error) {
+      console.error("Error deleting ride:", error);
+    }
+  };
+
+  const handlePhone = async (rideId) => {
+    try {
+      await axios
+        .get(
+          `http://localhost:8080/passenger/getcontact?email=${email}&rideID=${rideId}`
+        )
+        .then((res) => {
+          setPhone(res.data.phone)
+        });
+    } catch (error) {
+      console.error("Error deleting ride:", error);
+    }
+  };
+  const handleDriverDetail = async (rideId) => {
+    setIsModalVisible(true)
+    try {
+      await axios
+        .get(
+          `http://localhost:8080/passenger/getdriverdetail?email=${email}&rideID=${rideId}`
+        )
+        .then((res) => {
+          setDriverName(res.data.name)
+          setVehicleNum(res.data.number)
         });
     } catch (error) {
       console.error("Error deleting ride:", error);
@@ -80,15 +112,39 @@ function PassengerRideHistory() {
                         Cancel Ride
                       </button>
                     )}
+                    {ride.status !== "unaccepted" && (
+                      <button onClick={() => handlePhone(ride._id)} className="call-btn-pass">
+                        <a href={`tel:${phone}`} className="call-button">
+                          Call Driver
+                        </a>
+                      </button>
+                    )}
+                    {ride.status !== "unaccepted" && (
+                      <button onClick={() => handleDriverDetail(ride._id)}
+                        className="call-btn-pass">
+                        View Driver Detail
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
+        {isModalVisible && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={() => setIsModalVisible(false)}>
+                &times;
+              </span>
+              <p>Name: {driverName}</p>
+              <p>Vehicle Number: {vehicleNum}</p>
+            </div>
+          </div>
+        )}
       </div>
       <Passenger_nav />
-    </div>
+    </div >
   );
 }
 

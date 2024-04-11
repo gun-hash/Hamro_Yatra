@@ -86,4 +86,37 @@ const deleteRide = async (req, res) => {
   }
 };
 
-export { profileData, search, history, deleteRide };
+const getContact = async (req, res) => {
+  const rideID = req.query.rideID;
+  try {
+    const currRide = await Ride.findOne({ _id: rideID })
+    const currDriver = await User.findOne({ _id: currRide.driverID })
+    const phone = currDriver.phone
+    // Respond with a success status code
+    res.status(200).json({ message: "Phone number sent", phone });
+  } catch (error) {
+    // Handle errors
+    console.error("Error deleting ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getDriverDetail = async (req, res) => {
+  const rideID = req.query.rideID;
+  try {
+    const currRide = await Ride.findOne({ _id: rideID })
+    const currDriver = await User.findOne({ _id: currRide.driverID })
+    const name = currDriver.name
+    const currVehicle = await Vehicle.findOne({ driverID: currRide.driverID })
+    const number = currVehicle.number
+    // Respond with a success status code
+    console.log(name, number)
+    res.status(200).json({ message: "Driver Detail sent", name, number });
+  } catch (error) {
+    // Handle errors
+    console.error("Error deleting ride:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export { profileData, search, history, deleteRide, getContact, getDriverDetail };
