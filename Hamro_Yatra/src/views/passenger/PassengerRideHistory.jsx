@@ -4,7 +4,6 @@ import Passenger_nav from "../../components/passenger/passenger_nav";
 import { useStateContext } from "../../context/ContextProvider";
 import { useEffect, useState } from "react";
 import "../../assets/styles/passanger_history.css";
-import 'reactjs-popup/dist/index.css';
 
 function PassengerRideHistory() {
   const { email } = useStateContext();

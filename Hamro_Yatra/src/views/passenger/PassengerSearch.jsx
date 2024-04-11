@@ -133,10 +133,6 @@ export default function PassengerSearch() {
     );
   }, []);
 
-  // useEffect(() => {
-  //   setLatLng({ lat: userLocation.lat, lng: userLocation.lng });
-  // }, [userLocation]);
-
   const incrementSeats = () => {
     if (seatsNeeded < 3) {
       setSeatsNeeded((prevSeats) => prevSeats + 1);
@@ -219,8 +215,9 @@ export default function PassengerSearch() {
           ...formData,
         }
       );
-      if (response.status === 200) {
-        window.location.replace("/passenger/ride-history"); // Redirect to rides history page
+      if (response.status === 202) {
+        window.alert("Ride request received and being processed")
+        window.location.replace("/passenger/ride-history");
       } else {
         console.error("Error saving ride");
         // Handle other status codes if needed

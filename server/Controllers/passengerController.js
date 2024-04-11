@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import DriverRide from "../Models/DriverRide.js";
 import { matchPassengerToDrivers } from "../Scripts/knn.js";
 import { fareCalc } from "../Scripts/fare.js";
+import { spawn } from 'child_process';
 
 dotenv.config();
 
@@ -29,11 +30,25 @@ const search = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const currRide = { seats, date, fromlanglat, tolanglat, passengerID: rideReqUser._id, time, daysOfWeek }
+    // Respond immediately after user validation
+    res.status(202).json({ message: "Ride request received and being processed" });
+
+    // Process the ride request in the background
+    processRideRequest({ from, to, date, seats, time, daysOfWeek, fromlanglat, tolanglat, email, rideReqUser });
+
+  } catch (error) {
+    console.error("Error processing ride request:", error.message);
+    // Consideration: since the response might already be sent, handle these errors appropriately (e.g., logging, notifications)
+  }
+};
+
+async function processRideRequest({ from, to, date, seats, time, daysOfWeek, fromlanglat, tolanglat, email, rideReqUser }) {
+  try {
+    const currRide = { seats, date, fromlanglat, tolanglat, passengerID: rideReqUser._id, time, daysOfWeek };
 
     const freeDrivers = await DriverRide.find({ status: 'free' });
     const matchedDrivers = await matchPassengerToDrivers(currRide, freeDrivers);
-    const calculatedFare = fareCalc(currRide)
+    const calculatedFare = fareCalc(currRide);
     const newRide = new Ride({
       email,
       seats,
@@ -52,12 +67,13 @@ const search = async (req, res) => {
 
     await newRide.save();
 
-    res.status(200).json({ message: "Ride Saved", matchedDrivers });
+    // Since this part is running in the background, consider using another way to notify the user (e.g., email, push notification)
   } catch (error) {
-    console.error("Error saving ride:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error in background task for ride request:", error.message);
+    // Make sure to handle these errors appropriately
   }
-};
+}
+
 
 const history = async (req, res) => {
   const userEmail = req.query.email;
