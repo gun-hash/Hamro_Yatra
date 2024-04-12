@@ -133,7 +133,7 @@ function DriverMatch() {
   };
 
   return (
-    <>
+    <div className="algo-suggestion-main-div">
       {loading ? null : <h2>Ride Details</h2>}
       <div className="ride-available-container">
         {loading ? (
@@ -157,7 +157,7 @@ function DriverMatch() {
         )}
       </div>
       <DriverNav />
-    </>
+    </div>
   );
 }
 

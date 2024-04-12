@@ -89,12 +89,12 @@ export default function DriverSetDefaultRide() {
     const toLng = res.data.data.features[0].geometry.coordinates[0];
     setLatLng({ lat: fromLat, lng: fromLng });
     setDesLatLng({ lat: toLat, lng: toLng });
-  }
+  };
 
   const openModal = async () => {
     setModalOpen(true);
 
-    await fetchLongLat()
+    await fetchLongLat();
 
     const resp = await axios.get(
       "https://route-init.gallimap.com/api/v1/routing",
@@ -209,7 +209,7 @@ export default function DriverSetDefaultRide() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await fetchLongLat()
+    await fetchLongLat();
     try {
       const response = await axios.post(
         `http://localhost:8080/driver/setdefaultride?email=${email}`,
@@ -353,7 +353,7 @@ export default function DriverSetDefaultRide() {
                 </button>
               </div>
             </div>
-            <div className="input-group">
+            <div className="week-group">
               <label>Days of the week:</label>
               <div>
                 <label>

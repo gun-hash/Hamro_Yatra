@@ -1,0 +1,8 @@
+{
+  "user": {
+    "id": 1,
+    "username": "sakshamkadayat@gmail.com",
+    "email": "sakshamkadayat@gmail.com"
+  },
+  "token": "someTokenString"
+}

@@ -1,0 +1,50 @@
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from datetime import datetime, timedelta
+
+# Define the tasks, durations, and dependencies
+tasks = [
+    ("Project Planning", 14, "2023-04-12"),
+    ("Requirements Gathering", 21, "2024-04-26"),
+    ("UI/UX Design", 28, "2024-05-17"),
+    ("Database Design", 14, "2024-05-17"),
+    ("Front-end Development", 56, "2024-06-14"),
+    ("Back-end Development", 70, "2024-06-14"),
+    ("Integration Testing", 14, "2024-09-02"),
+    ("User Acceptance Testing", 14, "2024-09-16"),
+    ("Initial Deployment", 7, "2024-09-30"),
+    ("Deployment to Production", 7, "2024-10-07"),
+]
+
+# Start date of the project
+start_date = datetime.strptime("2024-04-12", "%Y-%m-%d")
+
+# Set up the plot
+fig, ax = plt.subplots(figsize=(14, 8))
+
+# Colors for the bars
+colors = plt.cm.tab10.colors
+
+# Create bars for each task
+for i, (task, duration, dependency_start) in enumerate(tasks):
+    dependency_start_date = datetime.strptime(dependency_start, "%Y-%m-%d")
+    start = (dependency_start_date - start_date).days
+    ax.broken_barh([(start, duration)], (i*10, 9), facecolors=(colors[i % len(colors)]), edgecolor='black')
+
+# Set the y-ticks to task names
+ax.set_yticks([5 + i*10 for i in range(len(tasks))])
+ax.set_yticklabels([task for task, _, _ in tasks])
+
+# Formatting the dates on the x-axis
+plt.xticks(rotation=45)
+ax.xaxis.set_major_locator(mdates.MonthLocator())
+ax.xaxis.set_minor_locator(mdates.WeekdayLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
+
+# Labels and grid
+ax.set_xlabel("Timeline")
+ax.set_title("Gantt Chart for Carpooling Web App Development")
+ax.grid(True, which='both', axis='x', linestyle='--', color='grey')
+
+plt.tight_layout()
+plt.show()

@@ -8,64 +8,51 @@
 
 /* profile css */
 .Driver-profile-container {
-  width: 90vw;
+  padding: 25px;
   background-color: #fff;
+  width: 80vw;
+  margin-top: 380px;
+  border-radius: 12px;
 }
 .profile-picture {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .data-wapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
 }
-.default-ride-data {
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px;
-  border-radius: 11px;
-  height: 280px;
-  width: 50%;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+
+.default-ride-data,
+.vehicle-info-data {
+  padding: 15px;
+  /* text-align: center; */
+  /* border: 1px solid black; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-radius: 8px;
 }
-.user-data {
-  /* border: 1px solid; */
-  border-radius: 11px;
-  padding: 12px;
-  width: 50%;
-}
-/* Ride History */
-.history-main-conatiner {
-  width: 90vw;
-  background-color: #fff;
-  border-radius: 11px;
-  padding: 12px;
-}
-.ride-history-container {
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  background-color: #fff;
+.delete-default-ride-btn {
+  background-color: #e30404;
+  color: #fff;
+  height: 40px;
 }
 @media screen and (max-width: 600px) {
   .data-wapper {
-    display: flex;
-    flex-direction: column;
-  }
-  .default-ride-data {
-    width: 90%;
-  }
-  .user-data {
-    width: 87%;
-  }
-  .Driver-profile-container {
-    margin-top: 250px;
-  }
-  .driver-main-container {
-    margin-top: 50px;
+    grid-template-columns: 1fr;
   }
 }
-
+@media screen and (max-width: 480px) {
+  .data-wapper {
+    grid-template-columns: 1fr;
+  }
+  .Driver-profile-container {
+    margin-top: 622px;
+  }
+}
 /*  */
 .ride-available-container {
   margin: 20px;
@@ -191,11 +178,10 @@ button:hover {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-left: 50%; /* Make room for content */
+    padding-left: 50%;
   }
 
   table td::before {
-    /* Use pseudo-elements to label the data */
     content: attr(data-label);
     position: absolute;
     left: 0;
@@ -222,6 +208,10 @@ button:hover {
 }
 .call-btn-pass {
   background-color: #525ad9;
+  width: 150px;
+  height: 40px;
+  font-size: 0.7rem;
+  margin-top: 6px;
 }
 .call-btn-pass a {
   text-decoration: none;
@@ -230,4 +220,78 @@ button:hover {
 .view-location-pass {
   background-color: #b8b82f;
   color: #fff;
+}
+.location-view-btn {
+  background-color: #525ad9;
+  width: 150px;
+  height: 40px;
+  color: #fff;
+  font-size: 0.7rem;
+  margin-top: 6px;
+}
+.complete-ride-btn {
+  background-color: #e30404;
+  width: 150px;
+  height: 40px;
+  font-size: 0.7rem;
+  color: #fff;
+}
+.complete-ride-btn:hover {
+  background-color: #287a20;
+}
+
+/*  Register Vehicle */
+.driver-vehicle-registration-container {
+  width: 90vw;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.input-field,
+.select-field {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+  height: 40px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #525ad9;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #118d2c;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+  .driver-vehicle-registration-container {
+    max-width: 90%;
+  }
+}
+/* history */
+.history-main-conatiner {
+  width: 90vw;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+}
+/* details */
+.algo-suggestion-main-div {
+  background-color: #fff;
+  width: 90vw;
+  padding: 12px;
 }
