@@ -108,10 +108,6 @@ export default function PassengerSearch() {
         },
       }
     );
-    console.log(resp);
-    // // console.log(response.data.data.features[0].geometry.coordinates)
-    // console.log(res.data.data.features[0].geometry.coordinates)
-    // console.log(response);
   };
 
   const closeModal = () => {

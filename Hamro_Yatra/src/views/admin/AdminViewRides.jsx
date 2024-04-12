@@ -1,5 +1,4 @@
 import axios from "axios";
-import AdminNav from "../../components/admin/AdminNav";
 import { useStateContext } from "../../context/ContextProvider";
 import { useEffect, useState } from "react";
 import "../../assets/styles/Adminviewride.css";
@@ -135,7 +134,6 @@ function AdminViewRides() {
           </table>
         </>
       )}
-      <AdminNav />
     </div>
   );
 }

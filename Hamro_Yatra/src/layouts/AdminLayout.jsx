@@ -1,6 +1,8 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
+import AdminNav from "../components/admin/AdminNav";
+
 
 export default function AdminLayout() {
   const { userRole } = useStateContext();
@@ -15,6 +17,7 @@ export default function AdminLayout() {
     return (
       <>
         <Outlet />
+        <AdminNav />
       </>
     );
   }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import AdminNav from "../../components/admin/AdminNav";
 import { useStateContext } from "../../context/ContextProvider";
 import profilePic from "../../assets/Images/profilepic.webp";
 import LogoutButton from "../../components/common/LogoutButton";
@@ -50,7 +49,6 @@ function AdminProfile() {
           )}
         </div>
         <LogoutButton />
-        <AdminNav />
       </div>
     </>
   );
