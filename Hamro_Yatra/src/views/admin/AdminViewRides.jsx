@@ -30,6 +30,9 @@ function AdminViewRides() {
   const pendingRides = rideHistory.filter(
     (ride) => ride.status === "unaccepted"
   );
+  const completedRides = rideHistory.filter(
+    (ride) => ride.status === "completed"
+  );
 
   // Helper function to render ride rows
   const renderRideRows = (rides) =>
@@ -55,6 +58,7 @@ function AdminViewRides() {
         <p>Loading...</p>
       ) : (
         <>
+
           <h3>Ongoing Rides</h3>
           <table className="ride-history-table">
             <thead>
@@ -100,6 +104,31 @@ function AdminViewRides() {
               ) : (
                 <tr>
                   <td colSpan="8">No pending rides.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          <h3>Completed Rides</h3>
+          <table className="ride-history-table">
+            <thead>
+              <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Fare</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Seats</th>
+                <th>Days of Week</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {completedRides.length > 0 ? (
+                renderRideRows(completedRides)
+              ) : (
+                <tr>
+                  <td colSpan="8">No Completed rides.</td>
                 </tr>
               )}
             </tbody>
