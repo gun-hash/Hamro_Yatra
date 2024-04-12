@@ -49,22 +49,22 @@ function PassengerRideHistory() {
           `http://localhost:8080/passenger/getcontact?email=${email}&rideID=${rideId}`
         )
         .then((res) => {
-          setPhone(res.data.phone)
+          setPhone(res.data.phone);
         });
     } catch (error) {
       console.error("Error deleting ride:", error);
     }
   };
   const handleDriverDetail = async (rideId) => {
-    setIsModalVisible(true)
+    setIsModalVisible(true);
     try {
       await axios
         .get(
           `http://localhost:8080/passenger/getdriverdetail?email=${email}&rideID=${rideId}`
         )
         .then((res) => {
-          setDriverName(res.data.name)
-          setVehicleNum(res.data.number)
+          setDriverName(res.data.name);
+          setVehicleNum(res.data.number);
         });
     } catch (error) {
       console.error("Error deleting ride:", error);
@@ -107,20 +107,29 @@ function PassengerRideHistory() {
                   <td>{ride.daysOfWeek.join(", ")}</td>
                   <td>
                     {ride.status === "unaccepted" && (
-                      <button onClick={() => handleDeleteRide(ride._id)}>
+                      <button
+                        onClick={() => handleDeleteRide(ride._id)}
+                        className="cancel-ride"
+                      >
                         Cancel Ride
                       </button>
                     )}
                     {ride.status !== "unaccepted" && (
-                      <button onClick={() => handlePhone(ride._id)} className="call-btn-pass">
+                      <button
+                        onClick={() => handlePhone(ride._id)}
+                        className="call-btn-pass"
+                      >
                         <a href={`tel:${phone}`} className="call-button">
                           Call Driver
                         </a>
                       </button>
                     )}
                     {ride.status !== "unaccepted" && (
-                      <button onClick={() => handleDriverDetail(ride._id)}
-                        className="call-btn-pass">
+                      <button
+                        style={{ color: "#fff" }}
+                        onClick={() => handleDriverDetail(ride._id)}
+                        className="call-btn-pass"
+                      >
                         View Driver Detail
                       </button>
                     )}
@@ -143,7 +152,7 @@ function PassengerRideHistory() {
         )}
       </div>
       <Passenger_nav />
-    </div >
+    </div>
   );
 }
 

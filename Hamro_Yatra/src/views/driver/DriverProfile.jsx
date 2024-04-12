@@ -20,7 +20,7 @@ function DriverProfile() {
         // Set the userData state with the response data
         setUserData(response.data.currentUser); // Changed object1 to currentUser
         setDefaultRide(response.data.driverDefaultRide);
-        setVehicleInfo(response.data.vehicleInformation)
+        setVehicleInfo(response.data.vehicleInformation);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -31,9 +31,7 @@ function DriverProfile() {
     try {
       // Make a DELETE request to the backend to delete the ride
       await axios
-        .get(
-          `http://localhost:8080/driver/deletedefaultride?email=${email}`
-        )
+        .get(`http://localhost:8080/driver/deletedefaultride?email=${email}`)
         .then(() => {
           // Filter out the deleted ride from the rideHistory
           setDefaultRide(null);
@@ -89,7 +87,10 @@ function DriverProfile() {
                     </React.Fragment>
                   ))}
                 </p>
-                <button onClick={() => handleDeleteDefaultRide()}>
+                <button
+                  onClick={() => handleDeleteDefaultRide()}
+                  className="delete-default-ride-btn"
+                >
                   Delete Default Ride
                 </button>
               </div>

@@ -17,7 +17,7 @@ import {
 function DriverRideHistory() {
   const { email } = useStateContext();
   const [rideHistory, setRideHistory] = useState(null);
-  const [phone, setPhone] = useState(null)
+  const [phone, setPhone] = useState(null);
   const [loading, setLoading] = useState(true);
   const [route, setRoute] = useState([]);
   const [location, setLocation] = useState({
@@ -44,11 +44,11 @@ function DriverRideHistory() {
         },
         (error) => {
           // Handle errors
-          window.alert(error.message)
+          window.alert(error.message);
         }
       );
     } else {
-      window.alert("Geolocation is not supported by this browser.")
+      window.alert("Geolocation is not supported by this browser.");
     }
 
     try {
@@ -66,7 +66,12 @@ function DriverRideHistory() {
       console.error("Error getting passenger location:", error);
     }
 
-    if (location.latitude && location.longitude && passengerlocation.latitude && passengerlocation.longitude) {
+    if (
+      location.latitude &&
+      location.longitude &&
+      passengerlocation.latitude &&
+      passengerlocation.longitude
+    ) {
       const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${location.longitude},${location.latitude};${passengerlocation.longitude},${passengerlocation.latitude}?overview=full&geometries=geojson`;
 
       try {
@@ -83,7 +88,6 @@ function DriverRideHistory() {
   const closeModal = () => {
     setModalOpen(false);
   };
-
 
   useEffect(() => {
     axios
@@ -106,7 +110,7 @@ function DriverRideHistory() {
           `http://localhost:8080/driver/completeride?email=${email}&rideID=${rideId}`
         )
         .then((res) => {
-          window.location.reload()
+          window.location.reload();
         });
     } catch (error) {
       console.error("Error deleting ride:", error);
@@ -120,7 +124,7 @@ function DriverRideHistory() {
           `http://localhost:8080/driver/getcontact?email=${email}&rideID=${rideId}`
         )
         .then((res) => {
-          setPhone(res.data.phone)
+          setPhone(res.data.phone);
         });
     } catch (error) {
       console.error("Error deleting ride:", error);
@@ -163,16 +167,28 @@ function DriverRideHistory() {
                   <td>{ride.daysOfWeek.join(", ")}</td>
                   <td>
                     {ride.status === "ongoing" && (
-                      <button onClick={() => handleCompleteRide(ride._id)}>Complete Ride</button>
+                      <button
+                        onClick={() => handleCompleteRide(ride._id)}
+                        className="complete-ride-btn"
+                      >
+                        Complete Ride
+                      </button>
                     )}
                     <div className="action-for-drivers">
-                      <button onClick={() => handlePhone(ride._id)} className="call-btn-pass">
+                      <button
+                        onClick={() => handlePhone(ride._id)}
+                        className="call-btn-pass"
+                      >
                         <a href={`tel:${phone}`} className="call-button">
                           Call Passenger
                         </a>
                       </button>
                       <div className="ModalContainer">
-                        <button type="button" onClick={() => openModal(ride._id)} className="view-btn">
+                        <button
+                          type="button"
+                          onClick={() => openModal(ride._id)}
+                          className="location-view-btn"
+                        >
                           Get Passenger Pickup Location
                         </button>
                         {modalOpen && (
@@ -189,8 +205,12 @@ function DriverRideHistory() {
                                   passengerlocation.longitude && (
                                     <MapContainer
                                       center={[
-                                        (location.latitude + passengerlocation.latitude) / 2,
-                                        (location.longitude + passengerlocation.longitude) / 2,
+                                        (location.latitude +
+                                          passengerlocation.latitude) /
+                                          2,
+                                        (location.longitude +
+                                          passengerlocation.longitude) /
+                                          2,
                                       ]}
                                       zoom={13}
                                       scrollWheelZoom={false}
@@ -200,14 +220,27 @@ function DriverRideHistory() {
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                       />
-                                      <Marker position={[location.latitude, location.longitude]}>
+                                      <Marker
+                                        position={[
+                                          location.latitude,
+                                          location.longitude,
+                                        ]}
+                                      >
                                         <Popup>Your Location</Popup>
                                       </Marker>
-                                      <Marker position={[passengerlocation.latitude, passengerlocation.longitude]}>
+                                      <Marker
+                                        position={[
+                                          passengerlocation.latitude,
+                                          passengerlocation.longitude,
+                                        ]}
+                                      >
                                         <Popup>Passenger Location</Popup>
                                       </Marker>
                                       {route.length > 0 && (
-                                        <Polyline positions={route} color="blue" />
+                                        <Polyline
+                                          positions={route}
+                                          color="blue"
+                                        />
                                       )}{" "}
                                       {/* Draw the route */}
                                     </MapContainer>

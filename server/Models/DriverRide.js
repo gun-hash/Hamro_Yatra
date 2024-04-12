@@ -6,7 +6,7 @@ const DriverRideSchema = new mongoose.Schema({
     required: true,
   },
   to: {
-    type: String, // Changed type to String
+    type: String,
     required: true,
   },
   fromlanglat: {
@@ -17,7 +17,7 @@ const DriverRideSchema = new mongoose.Schema({
     lng: {
       type: String,
       required: true,
-    }
+    },
   },
   tolanglat: {
     lat: {
@@ -27,19 +27,19 @@ const DriverRideSchema = new mongoose.Schema({
     lng: {
       type: String,
       required: true,
-    }
+    },
   },
   driverID: {
     type: String,
     required: false,
-    unique: true
+    unique: true,
   },
   date: {
     type: Date,
     required: true,
   },
   time: {
-    type: String, // Assuming time will be stored as string HH:MM format
+    type: String,
     required: true,
   },
   seats: {
@@ -47,12 +47,12 @@ const DriverRideSchema = new mongoose.Schema({
     required: true,
   },
   daysOfWeek: {
-    type: [String], // Array of strings
-    required: true
+    type: [String],
+    required: true,
   },
   status: {
     type: String,
-    default: 'free'
+    default: "free",
   },
 });
 

@@ -1,29 +1,24 @@
 .ride-history-container {
   padding: 20px;
-  /* Increased padding for better spacing inside the card */
   width: 30%;
   height: auto;
   margin: 20px auto;
-  /* Lighter border color for a subtle effect */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  /* Shadow for depth */
   border-radius: 10px;
-  /* Rounded corners for the card style */
   background-color: #ffffff;
-  /* Optional: Background color */
 }
 
 .ride-history-main-container {
   width: 90vw;
   padding: 20px;
   background-color: #fff;
+  border: 1px solid;
 }
 
 .ride-card {
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   margin-bottom: 20px;
 }
 
@@ -83,7 +78,7 @@
     font-size: 12px;
   }
 }
-
+/* driver history*/
 
 .modal {
   position: fixed;
@@ -116,4 +111,43 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cancel-ride {
+  height: 40px;
+  width: 120px;
+  background-color: red;
+  color: #fff;
 }

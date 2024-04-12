@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
-import profilePic from "../../assets/Images/profilepic.webp";
+import profilePic from "../../assets/Images/admin.png";
 import LogoutButton from "../../components/common/LogoutButton";
 import "../../assets/styles/adminprofile.css";
 function AdminProfile() {
