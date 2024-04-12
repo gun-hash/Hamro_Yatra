@@ -1,29 +1,24 @@
 .ride-history-container {
   padding: 20px;
-  /* Increased padding for better spacing inside the card */
   width: 30%;
   height: auto;
   margin: 20px auto;
-  /* Lighter border color for a subtle effect */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  /* Shadow for depth */
   border-radius: 10px;
-  /* Rounded corners for the card style */
   background-color: #ffffff;
-  /* Optional: Background color */
 }
 
 .ride-history-main-container {
   width: 90vw;
   padding: 20px;
   background-color: #fff;
+  border: 1px solid;
 }
 
 .ride-card {
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   margin-bottom: 20px;
 }
 
@@ -149,4 +144,10 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+.cancel-ride {
+  height: 40px;
+  width: 120px;
+  background-color: red;
+  color: #fff;
 }
